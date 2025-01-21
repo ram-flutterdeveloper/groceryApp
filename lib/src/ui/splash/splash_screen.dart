@@ -1,0 +1,47 @@
+import 'package:flutter/material.dart';
+import 'package:grocery_app/src/core/routes/routes.dart';
+import 'package:grocery_app/src/ui/onboarding/on_boarding_screen.dart';
+import 'package:grocery_app/utils/constants/assets_constant.dart';
+import 'package:grocery_app/utils/extensions/extensions.dart';
+import 'package:grocery_app/utils/extensions/uicontext.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  couting() async {
+    Future.delayed(const Duration(seconds: 3)).then((c) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) {
+          return const OnBoardingScreen();
+        },
+      ));
+    });
+  }
+
+  @override
+  void initState() {
+    // couting();
+
+    Future.delayed(const Duration(seconds: 2), () async {
+      context.clearAndPush(routePath: MyRoutes.ONBOARDING);
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: context.screenHeight(),
+      width: context.screenWidth(),
+      child: Image.asset(
+        APPASSETS.splashImagePNG,
+        fit: BoxFit.fill,
+      ),
+    );
+  }
+}

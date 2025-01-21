@@ -1,0 +1,80 @@
+name: grocery_app
+description: "CustomerApp"
+
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.4 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.10+1
+  material_design_icons_flutter: ^7.0.7296
+  intl: ^0.19.0
+  otp_text_field: ^1.1.3
+  cached_network_image: ^3.4.1
+  carousel_slider: ^5.0.0
+  dots_indicator: ^3.0.0
+  readmore: ^3.0.0
+  flutter_toggle_tab: ^1.4.1
+  dotted_border: ^2.1.0
+  go_router: ^14.2.0
+
+  get_it: any
+  dio: any
+   # API log
+  pretty_dio_logger: any
+  # local storage
+  shared_preferences: any
+
+  # Functional programming
+  fpdart: any
+
+  flutter_screenutil: ^5.9.3
+
+  # Internet connection
+  connectivity_plus: any
+
+
+    # Loader overlay
+  loader_overlay: ^4.0.0
+
+  provider: any
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/images/pngs/
+    - assets/images/svgs/
+
+  fonts:
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito-Regular.ttf
+        - asset: assets/fonts/Nunito-Italic.ttf
+        - asset: assets/fonts/Nunito-Light.ttf
+        - asset: assets/fonts/Nunito-LightItalic.ttf
+        - asset: assets/fonts/Nunito-Medium.ttf
+        - asset: assets/fonts/Nunito-MediumItalic.ttf
+        - asset: assets/fonts/Nunito-SemiBold.ttf
+        - asset: assets/fonts/Nunito-SemiBoldItalic.ttf
+        - asset: assets/fonts/Nunito-Bold.ttf
+        - asset: assets/fonts/Nunito-BoldItalic.ttf
+        - asset: assets/fonts/Nunito-ExtraBold.ttf
+        - asset: assets/fonts/Nunito-ExtraBoldItalic.ttf
