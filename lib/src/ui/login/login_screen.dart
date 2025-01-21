@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_app/src/common_widget/textfield_widget.dart';
+import 'package:grocery_app/src/core/routes/routes.dart';
 import 'package:grocery_app/src/ui/otp/otp_screen.dart';
 import 'package:grocery_app/utils/constants/color_constant.dart';
 import 'package:grocery_app/utils/constants/string_constant.dart';
@@ -80,12 +82,16 @@ class _LoginScreenState extends State<LoginScreen> {
             child: InkWell(
               onTap: () {
                 print("djkhfjdgf  ${_formKey.currentState?.validate()}");
-                if (_formKey.currentState?.validate() ?? false) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) {
-                      return const OtpScreen();
-                    },
-                  ));
+                if (_formKey.currentState?.validate() ?? false) 
+                {
+                  context.push(MyRoutes.OTPSCREEN);
+
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //   builder: (context)
+                  //   {
+                  //     return const OtpScreen();
+                  //   },
+                  // ));
                 }
               },
               child: Container(

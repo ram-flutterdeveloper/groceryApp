@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_app/src/common_widget/textfield_widget.dart';
+import 'package:grocery_app/src/core/routes/routes.dart';
 import 'package:grocery_app/src/ui/bottomnavigation/bottom_bar_widget.dart';
 import 'package:grocery_app/utils/constants/assets_constant.dart';
 import 'package:grocery_app/utils/constants/color_constant.dart';
 import 'package:grocery_app/utils/constants/string_constant.dart';
+import 'package:grocery_app/utils/extensions/extensions.dart';
 import 'package:grocery_app/utils/extensions/uicontext.dart';
 
 class EnterFullNameScreen extends StatefulWidget {
@@ -15,6 +18,9 @@ class EnterFullNameScreen extends StatefulWidget {
 }
 
 class _EnterFullNameScreenState extends State<EnterFullNameScreen> {
+  
+
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,10 +48,33 @@ class _EnterFullNameScreenState extends State<EnterFullNameScreen> {
                 style: context.customMedium(APPCOLOR.black333333, 18),
               ),
               const SizedBox(height: 30),
-              AppTextFieldWidget(
-                controller: TextEditingController(),
-                hintText: APPSTRING.fullNameHint,
-              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    AppTextFieldWidget(
+                      controller: TextEditingController(),
+                      hintText: APPSTRING.firstNameHint,
+                      onValidate: (value){
+                         if (value == null || value.isEmpty) {
+                          return 'Please Enter first Name';
+                        }
+                        return null;
+                      },
+                    ),
+                    AppTextFieldWidget(
+                      controller: TextEditingController(),
+                      hintText: APPSTRING.lastNameHint,
+                      onValidate: (value){
+                         if (value == null || value.isEmpty) {
+                          return 'Please Enter last Name';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -60,16 +89,25 @@ class _EnterFullNameScreenState extends State<EnterFullNameScreen> {
           child: Center(
             child: InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    return const BottomBarWidget();
-                  },
-                ));
+
+                 if (_formKey.currentState?.validate() ?? false) {
+                  context.clearAndPush(  routePath: MyRoutes.BOTTOMNAV);
+                }
+
+
+
+                // Navigator.of(context).push(MaterialPageRoute(
+                //   builder: (context) {
+                //     return const BottomBarWidget();
+                //   },
+                // ));
               },
               child: Container(
                 height: 50,
                 width: MediaQuery.sizeOf(context).width,
-                decoration: BoxDecoration(color: APPCOLOR.appGreen, borderRadius: BorderRadius.circular(4)),
+                decoration: BoxDecoration(
+                    color: APPCOLOR.appGreen,
+                    borderRadius: BorderRadius.circular(4)),
                 child: Center(
                   child: Text(
                     APPSTRING.continueBtn,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_app/src/ui/entername/enter_fullname_screen.dart';
 import 'package:grocery_app/utils/constants/assets_constant.dart';
 import 'package:grocery_app/utils/constants/color_constant.dart';
@@ -8,6 +9,8 @@ import 'package:grocery_app/utils/extensions/color_ex.dart';
 import 'package:grocery_app/utils/extensions/uicontext.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
+
+import '../../core/routes/routes.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -34,10 +37,9 @@ class _OtpScreenState extends State<OtpScreen> {
             children: [
               const SizedBox(height: 30),
               InkWell(
-                  onTap: ()
-                   {
+                  onTap: () {
                     Navigator.of(context).pop();
-                   },
+                  },
                   child: SvgPicture.asset(APPASSETS.back)),
               const SizedBox(height: 30),
               Text(
@@ -54,15 +56,17 @@ class _OtpScreenState extends State<OtpScreen> {
               const SizedBox(height: 20),
               OTPTextField(
                 length: 6,
-                onChanged: (c) 
-                {
-                  if (c.length == 6) 
-                  {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const EnterFullNameScreen();
-                      },
-                    ));
+                onChanged: (c) {
+                  if (c.length == 6)
+                   {
+                    context.push(MyRoutes.FULLNAME);
+
+                    // Navigator.push(context, MaterialPageRoute(
+                    //   builder: (context)
+                    //    {
+                    //     return const EnterFullNameScreen();
+                    //   },
+                    // ));
                   }
                 },
                 width: MediaQuery.of(context).size.width,
@@ -79,12 +83,15 @@ class _OtpScreenState extends State<OtpScreen> {
                 height: 10,
               ),
               RichText(
-                  text: TextSpan(text: 'Didn’t get the code? ', style: context.customRegular(APPCOLOR.gery48514D, 14), children: [
-                TextSpan(
-                  text: 'Resend',
-                  style: context.customRegular(APPCOLOR.appGreen, 14),
-                )
-              ]))
+                  text: TextSpan(
+                      text: 'Didn’t get the code? ',
+                      style: context.customRegular(APPCOLOR.gery48514D, 14),
+                      children: [
+                    TextSpan(
+                      text: 'Resend',
+                      style: context.customRegular(APPCOLOR.appGreen, 14),
+                    )
+                  ]))
             ],
           ),
         ),

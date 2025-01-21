@@ -10,7 +10,8 @@ class APPSTRING {
 
   //hint
   static const String phoneNumberHint = "Phone Number";
-  static const String fullNameHint = "Full Name";
+  static const String firstNameHint = "First Name";
+  static const String lastNameHint = "last Name";
 
   //button
   static const String verifyButton = "Verify";
