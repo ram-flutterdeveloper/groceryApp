@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grocery_app/src/common_widget/textfield_widget.dart';
 import 'package:grocery_app/src/core/routes/routes.dart';
+import 'package:grocery_app/src/logic/provider/auth_provider.dart';
 import 'package:grocery_app/src/ui/otp/otp_screen.dart';
 import 'package:grocery_app/utils/constants/color_constant.dart';
 import 'package:grocery_app/utils/constants/string_constant.dart';
 import 'package:grocery_app/utils/extensions/uicontext.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,6 +17,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController phoneController = TextEditingController();
+
   String? validatePhoneNumber(String? value) {
     if (value == null || value.isEmpty) {
       return 'Phone number cannot be empty';
@@ -27,6 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final pageNotifier = Provider.of<AuthProvider>(context, listen: false);
+
     return Scaffold(
       body: Container(
         width: MediaQuery.sizeOf(context).width,
@@ -62,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 key: _formKey,
                 child: AppTextFieldWidget(
                   length: 10,
-                  controller: TextEditingController(),
+                  controller: phoneController,
                   hintText: APPSTRING.phoneNumberHint,
                   onValidate: (value) => validatePhoneNumber(value),
                 ),
@@ -80,18 +86,26 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: context.bodyAllPadding.copyWith(bottom: 20),
           child: Center(
             child: InkWell(
-              onTap: () {
-                print("djkhfjdgf  ${_formKey.currentState?.validate()}");
-                if (_formKey.currentState?.validate() ?? false) 
-                {
-                  context.push(MyRoutes.OTPSCREEN);
+              onTap: () async {
+                if (_formKey.currentState?.validate() ?? false) {
+                  final success =
+                      await pageNotifier.sendOtp(phoneController.text, context);
 
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //   builder: (context)
-                  //   {
-                  //     return const OtpScreen();
-                  //   },
-                  // ));
+                  if (success) {
+                    context.push(MyRoutes.OTPSCREEN);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Failed to send OTP. Please try again."),
+                      ),
+                    );
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Enter a valid 10-digit phone number."),
+                    ),
+                  );
                 }
               },
               child: Container(

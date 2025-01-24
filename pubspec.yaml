@@ -45,6 +45,12 @@ dependencies:
   loader_overlay: ^4.0.0
 
   provider: any
+  gap: ^3.0.1
+
+  flutter_animate:
+
+  animations: ^2.0.1
+  animation_list: ^3.1.0
 
 
 

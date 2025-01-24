@@ -32,7 +32,8 @@ class _MapScreenState extends State<MapScreen> {
                   APPASSETS.back,
                   height: 20,
                   width: 20,
-                )),
+                )
+                ),
           ),
         ),
         title: const Text(

@@ -212,7 +212,8 @@ extension ContextExtension on BuildContext {
   }
 
   /// show global loader
-  void showLoader({bool show = true}) {
+  void showLoader({bool show = true}) 
+  {
     if (mounted) {
       if (show) {
         loaderOverlay.show();

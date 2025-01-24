@@ -12,4 +12,5 @@ class APPCOLOR {
   static Color gery48514D = HexColor('48514D');
   static Color lightGreyF4F5F5 = HexColor('F7FDF7');
   static Color bgGrey = Colors.grey.withOpacity(0.0500);
+   static const Color gray = const Color(0xFFB3B3B3);
 }

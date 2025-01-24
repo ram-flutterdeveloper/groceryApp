@@ -13,6 +13,9 @@ class APPSTRING {
   static const String firstNameHint = "First Name";
   static const String lastNameHint = "last Name";
 
+    static const String emailHint = "Email-ID";
+  static const String addressHint = "Address";
+
   //button
   static const String verifyButton = "Verify";
   static const String continueBtn = "Continue";

@@ -4,6 +4,8 @@ class APPASSETS {
 
   //SVG
   static const String back = "$svgBaseUrl/back.svg";
+  static const String removeIcon = "$svgBaseUrl/remove.svg";
+  static const String addIcon = '$svgBaseUrl/add.svg';
   //PNG
   static const String splashImagePNG = "$pngBaseUrl/splash.png";
   static const String onBoardMan = "$pngBaseUrl/onboard_man.png";

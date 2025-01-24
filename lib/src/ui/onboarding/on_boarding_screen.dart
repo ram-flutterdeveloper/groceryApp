@@ -25,10 +25,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     _pageController.nextPage(duration: _kDuration, curve: _kCurve);
   }
 
-  skipFunction() 
-  {
+  skipFunction() {
     SharedPrefUtils.setFreshInstall(isFresh: false).then(
-      (value) => context.clearAndPush(routePath: MyRoutes.LOGIN, args: 0),
+      (value) => context.clearAndPush(routePath: MyRoutes.BOTTOMNAV, args: 0),
     );
 
     // Navigator.pushReplacement(context, MaterialPageRoute(
@@ -79,12 +78,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 children: <Widget>[
                   Stack(
                     children: [
+                      Image.asset(APPASSETS.onBoardMan),
                       Positioned(
-                        top: 10,
+                        top: 20,
                         right: 0,
-                        child: InkWell(
+                        child: GestureDetector(
                           onTap: () {
-                            print("djfhgk");
                             skipFunction();
                           },
                           child: Row(
@@ -95,15 +94,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                 style:
                                     context.customMedium(APPCOLOR.appGreen, 14),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
+                              const SizedBox(width: 10),
                               Container(
                                 height: 35,
                                 width: 35,
                                 decoration: BoxDecoration(
-                                    color: APPCOLOR.appGreen,
-                                    borderRadius: BorderRadius.circular(90)),
+                                  color: APPCOLOR.appGreen,
+                                  borderRadius: BorderRadius.circular(90),
+                                ),
                                 child: const Center(
                                   child: Icon(
                                     Icons.arrow_forward,
@@ -116,7 +114,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           ),
                         ),
                       ),
-                      Image.asset(APPASSETS.onBoardMan),
                       Positioned(
                         bottom: 100,
                         right: 0,
