@@ -73,13 +73,13 @@ class _OtpScreenState extends State<OtpScreen> {
               OTPTextField(
                 length: 6,
                 onChanged: (c) {
-                  if (c.length == 6) {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const EnterFullNameScreen();
-                      },
-                    ));
-                  }
+                  // if (c.length == 6) {
+                  //   Navigator.push(context, MaterialPageRoute(
+                  //     builder: (context) {
+                  //       return const EnterFullNameScreen();
+                  //     },
+                  //   ));
+                  // }
                 },
                 width: MediaQuery.of(context).size.width,
                 fieldWidth: 50,
@@ -92,15 +92,16 @@ class _OtpScreenState extends State<OtpScreen> {
                 onCompleted: (pin) async {
                   final success = await pageNotifier.verifiOtp(pin, context);
 
-                  if (success) {
+                  if (success) 
+                  {
                     context.push(MyRoutes.FULLNAME);
                   } else {
-                    // ScaffoldMessenger.of(context).showSnackBar(
-                    //   SnackBar(
-                    //     backgroundColor: Colors.grey,
-                    //     content: Text("Failed to send OTP. Please try again."),
-                    //   ),
-                    // );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.grey,
+                        content: Text("Failed to send OTP. Please try again."),
+                      ),
+                    );
                   }
                 },
               ),

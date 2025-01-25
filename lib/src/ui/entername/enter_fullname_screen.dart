@@ -20,12 +20,9 @@ class EnterFullNameScreen extends StatefulWidget {
 }
 
 class _EnterFullNameScreenState extends State<EnterFullNameScreen> {
-  
-
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-
     final pageNotifier = Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
@@ -60,8 +57,8 @@ class _EnterFullNameScreenState extends State<EnterFullNameScreen> {
                     AppTextFieldWidget(
                       controller: pageNotifier.name,
                       hintText: APPSTRING.firstNameHint,
-                      onValidate: (value){
-                         if (value == null || value.isEmpty) {
+                      onValidate: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'Please Enter first Name';
                         }
                         return null;
@@ -70,15 +67,14 @@ class _EnterFullNameScreenState extends State<EnterFullNameScreen> {
                     AppTextFieldWidget(
                       controller: pageNotifier.lastName,
                       hintText: APPSTRING.lastNameHint,
-                      onValidate: (value){
-                         if (value == null || value.isEmpty) {
+                      onValidate: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'Please Enter last Name';
                         }
                         return null;
                       },
                     ),
-
-                     AppTextFieldWidget(
+                    AppTextFieldWidget(
                       controller: pageNotifier.email,
                       hintText: APPSTRING.emailHint,
                       onValidate: (value) {
@@ -88,17 +84,16 @@ class _EnterFullNameScreenState extends State<EnterFullNameScreen> {
                         return null;
                       },
                     ),
-                    AppTextFieldWidget(
-                      controller: pageNotifier.address,
-                      hintText: APPSTRING.addressHint,
-                      onValidate: (value) {
-                        if (value == null || value.isEmpty) 
-                        {
-                          return 'Please Enter address';
-                        }
-                        return null;
-                      },
-                    ),
+                    // AppTextFieldWidget(
+                    //   controller: pageNotifier.address,
+                    //   hintText: APPSTRING.addressHint,
+                    //   onValidate: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Please Enter address';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
                   ],
                 ),
               )
@@ -115,15 +110,14 @@ class _EnterFullNameScreenState extends State<EnterFullNameScreen> {
           padding: context.bodyAllPadding.copyWith(bottom: 20),
           child: Center(
             child: InkWell(
-              onTap: () 
-              {
+              onTap: () async {
+                if (_formKey.currentState?.validate() ?? false) {
+                  final success = await pageNotifier.customerRegister(context);
 
-                 if (_formKey.currentState?.validate() ?? false)
-                  {
-                   context.clearAndPush(  routePath: MyRoutes.BOTTOMNAV);
+                  if (success) {
+                    context.clearAndPush(routePath: MyRoutes.BOTTOMNAV);
                   }
-
-
+                }
 
                 // Navigator.of(context).push(MaterialPageRoute(
                 //   builder: (context) {

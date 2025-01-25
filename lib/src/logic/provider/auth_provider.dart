@@ -121,15 +121,12 @@ class AuthProvider extends ChangeNotifier {
 
   // //vendorRegister
 
-  Future<bool> vendorRegister(BuildContext context) async {
+  Future<bool> customerRegister(BuildContext context) async {
     context.showLoader(show: true);
     var data = {
-      "firstName": await SharedPrefUtils.getFirstName(),
-      "lastName": await SharedPrefUtils.getLastName(),
-      "email": await SharedPrefUtils.getEmail(),
-      "password": await SharedPrefUtils.getPassword(),
-      "vendorType": "individual",
-      
+      "firstName": name.text,
+      "lastName": lastName.text,
+      "email": email.text,
     };
 
     try {

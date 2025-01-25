@@ -5,8 +5,11 @@ class APIURL {
   static const String verifyOtp = "${BASE_URL}auth/verify-otp/customer";
   static const String login = "${BASE_URL}auth/login/vendor";
   static const String customerRegister = "${BASE_URL}auth/register/customer";
-  static const String createStore = "${BASE_URL}stores";
-  static const String getStore = "${BASE_URL}stores/";
+
+    static const String getStore = "${BASE_URL}stores/";
+
+  static const String getAllProduct = "${BASE_URL}products";
+
   static const String updateStore = "${BASE_URL}stores/";
   static const String forgetPassword = "${BASE_URL}auth/forgot-password/vendor";
   static const String verifyForgetPassword =
@@ -18,7 +21,7 @@ class APIURL {
   static const String getMe = "${BASE_URL}auth/me";
   static const String refresh_token = "${BASE_URL}auth/refresh-token";
   static const String createProduct = "${BASE_URL}products";
-  static const String vendorLogOut = "${BASE_URL}auth/logout/vendor";
+  static const String customerLogOut = "${BASE_URL}/auth/logout/customer";
   static const String uploadImage = "${BASE_URL}images/upload";
   static const String deleteProduct = "${BASE_URL}products/";
   static const String updateProduct = "${BASE_URL}products/";

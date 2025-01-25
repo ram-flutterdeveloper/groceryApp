@@ -5,10 +5,10 @@ import 'package:fpdart/fpdart.dart';
 import 'package:grocery_app/src/core/utils/custom_dio_exception.dart';
 import 'package:grocery_app/src/core/utils/response_type_def.dart';
 import 'package:grocery_app/src/data/OTPResponseModel.dart';
+import 'package:grocery_app/src/data/registration_response.dart';
 import 'package:grocery_app/src/data/vendor_otpModel.dart';
 import 'package:grocery_app/src/logic/services/auth_service_locator.dart';
 import 'package:grocery_app/utils/constants/shared_pref_utils.dart';
-
 
 class AuthRepo {
   final AuthServices _authServices;
@@ -21,7 +21,7 @@ class AuthRepo {
       final String model = response.toString();
       // OtpResponseModel otpResponseModel =
       //     otpResponseModelFromJson(response.toString());
-    
+
       return right(model);
     } on DioException catch (e) {
       print("dhfgfdgjdhfgfgh  ${e}");
@@ -30,8 +30,6 @@ class AuthRepo {
     }
   }
 
-
-
   FutureResult<VendorOtpModel> verifyOtp(data) async {
     try {
       var response = await _authServices.verifyOtp(data);
@@ -39,8 +37,7 @@ class AuthRepo {
       final VendorOtpModel vendorOtpModel =
           vendorOtpModelFromJson(response.toString());
 
-      if (vendorOtpModel.data != null) 
-      {
+      if (vendorOtpModel.data != null) {
         await SharedPrefUtils.setToken(
             authToken: vendorOtpModel.data!.accessToken ?? "");
       }
@@ -95,6 +92,15 @@ class AuthRepo {
   FutureResult<String> customerRegister(data) async {
     try {
       var response = await _authServices.userRegister(data);
+
+      RegistrationResponse registrationResponse =
+          registrationResponseFromJson(response.toString());
+      await SharedPrefUtils.setToken(
+          authToken: registrationResponse.accessToken ?? "");
+      if (response.statCode) {
+        print("dsfklgjkfgbfgkfdgjkhkfdjg");
+      }
+
       final String model = response.toString();
       return right(model);
     } on DioException catch (e) {
@@ -143,7 +149,4 @@ class AuthRepo {
   //     return left(error);
   //   }
   // }
-
-
-
 }
