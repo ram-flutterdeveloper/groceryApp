@@ -1,126 +1,123 @@
-// import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:grocery_app/src/core/utils/custom_dio_exception.dart';
+import 'package:grocery_app/src/core/utils/response_type_def.dart';
+import 'package:grocery_app/src/data/allProduct_model.dart';
+import 'package:grocery_app/src/data/banners.dart';
+import 'package:grocery_app/src/data/best_dealProduct.dart';
+import 'package:grocery_app/src/data/product_category.dart';
+import 'package:grocery_app/src/logic/services/home_locator.dart';
 
-// import 'package:dio/dio.dart';
-// import 'package:fpdart/fpdart.dart';
-// import 'package:vendor_app/src/core/utiils_lib/custom_dio_exception.dart';
-// import 'package:vendor_app/src/core/utiils_lib/response_type_def.dart';
-// import 'package:vendor_app/src/core/utiils_lib/shared_pref_utils.dart';
-// import 'package:vendor_app/src/data/ProductCategoryModel.dart';
-// import 'package:vendor_app/src/data/prdouct_model.dart';
-// import 'package:vendor_app/src/data/upload_image.dart';
-// import 'package:vendor_app/src/data/vendor_otpModel.dart';
-// import 'package:vendor_app/src/logic/services/product_locator.dart';
-// import 'package:vendor_app/src/logic/services/service_locator.dart';
+class ProductRepo {
+  final ProductService _productService;
 
-// class ProductRepo {
-//   final ProductService _productServices;
+  ProductRepo(this._productService);
 
-//   ProductRepo(this._productServices);
+  FutureResult<AllProductModel> getAllProduct(data, BuildContext context) async {
+    try {
+      var response = await _productService.getAllProduct(data);
 
-//   FutureResult<PrdouctModel> getProduct(data) async {
-//     try {
-//       var response = await _productServices.getProduct(data);
+      AllProductModel loginResponse =
+          allProductModelFromJson(response.toString());
 
-//       final PrdouctModel prdouctModel =
-//           prdouctModelFromJson(response.toString());
+      final String model = response.toString();
 
-//       if (prdouctModel.data!.isNotEmpty)
-//        {
-//         print("check data are fetch are note");
-//       }
+      return right(loginResponse);
+    } on DioException catch (e) {
+      var error = CustomDioExceptions.handleError(e);
+      return left(error);
+    }
+  }
 
-//       //  final String model = response.toString();
+   FutureResult<BestDealProduct> getBestDealProduct(data, BuildContext context) async {
+    try {
+      var response = await _productService.getBestDealProduct(data);
 
-//       return right(prdouctModel);
-//     } on DioException catch (e) {
-//       var error = CustomDioExceptions.handleError(e);
-//       return left(error);
-//     }
-//   }
+      BestDealProduct loginResponse =
+          bestDealProductFromJson(response.toString());
 
-//   FutureResult<List<ProductCategoryModel>> getCategoryByLevel(data) async 
-//   {
-//     try {
-//       var response = await _productServices.getCategoryByLevel(data);
+      final String model = response.toString();
 
-//       final List<ProductCategoryModel> productModels = (response.data as List)
-//             .map((item) => ProductCategoryModel.fromJson(item))
-//             .toList();
-//       if (response != null && response.data != null) 
-//       {
-//         // Parse the response data into a list of ProductCategoryModel
-//         final List<ProductCategoryModel> productModels = (response.data as List)
-//             .map((item) => ProductCategoryModel.fromJson(item))
-//             .toList();
+      return right(loginResponse);
+    } on DioException catch (e) {
+      var error = CustomDioExceptions.handleError(e);
+      return left(error);
+    }
+  }
 
-//         // Print or handle the fetched data
-//         if (productModels.isNotEmpty) 
-//         {
-//           print(
-//               "Data successfully fetched and parsed: ${productModels.length} categories.");
-//         }
-//       }
-//       return right(productModels);
-//     } on DioException catch (e) {
-//       var error = CustomDioExceptions.handleError(e);
-//       return left(error);
-//     }
-//   }
 
-//     FutureResult<String> createProduct(data) async {
-//     try {
-//       var response = await _productServices.createProduct(data);
-//       final String model = response.toString();
+  FutureResult<ProductCategory> getAllcategory(data, BuildContext context) async {
+    try {
+      var response = await _productService.getAllcategory(data);
 
-//       return right(model);
-//     } on DioException catch (e) {
-//       var error = CustomDioExceptions.handleError(e);
-//       return left(error);
-//     }
-//   }
- 
-//  FutureResult<String> deleteProduct(data,id) async
-//   {
-//     try {
-//       var response = await _productServices.deleteProduct(data,id);
-//       final String model = response.toString();
+      ProductCategory productCategory =  productCategoryFromJson(response.toString());
 
-//       return right(model);
-//     } on DioException catch (e) {
-//       var error = CustomDioExceptions.handleError(e);
-//       return left(error);
-//     }
-//   }
+     // final String model = response.toString();
 
-//    FutureResult<String> updateProduct(data,id) async
-//   {
-//     try {
-//       var response = await _productServices.updateProduct(data,id);
-//       final String model = response.toString();
-
-//       return right(model);
-//     } on DioException catch (e) {
-//       var error = CustomDioExceptions.handleError(e);
-//       return left(error);
-//     }
-//   }
-
-  
- 
- 
-//    FutureResult<UploadImage> uploadImage(File imageFile) 
-//    async {
-//     try {
-//       final response = await _productServices.uploadImage(imageFile);
-//       UploadImage upload=uploadImageFromJson(response.toString());
-//       return right(upload);
-//     } on DioException catch (e) {
-//       final error = CustomDioExceptions.handleError(e);
-//       return left(error);
-//     }
-//   }
-  
+      return right(productCategory);
+    } on DioException catch (e) 
+    {
+      print("djhgfjdfhjg  ${e}");
+      var error = CustomDioExceptions.handleError(e);
+      return left(error);
+    }
+  }
 
 
 
-// }
+
+  FutureResult<BannerModel> getBanners(data, BuildContext context) async {
+    try {
+      var response = await _productService.getBanners(data);
+
+      BannerModel bannerresponse = bannerFromJson(response.toString());
+
+      final String model = response.toString();
+
+      return right(bannerresponse);
+    } on DioException catch (e) {
+      var error = CustomDioExceptions.handleError(e);
+      return left(error);
+    }
+  }
+
+  FutureResult<String> customerLogOut(data) async {
+    try {
+      var response = await _productService.customerLogOut(data);
+
+      final String model = response.toString();
+
+      return right(model);
+    } on DioException catch (e) {
+      var error = CustomDioExceptions.handleError(e);
+      return left(error);
+    }
+  }
+
+  // FutureResult<VendorModel> getMe(data) async {
+  //   try {
+  //     var response = await _homeService.getMe(data);
+
+  //     final VendorModel vendorModel = vendorModelFromJson(response.toString());
+
+  //     if (vendorModel != null)
+  //     {
+  //       SharedPrefUtils.USER_NAME =
+  //           vendorModel.firstName + " " + vendorModel.lastName;
+  //           SharedPrefUtils.PHONE = vendorModel.phone;
+
+  //       print("dkfjhdkfhkfk  ${SharedPrefUtils.USER_NAME}");
+  //       await SharedPrefUtils.setStoreId(storeId: vendorModel.storeId ?? "");
+
+  //     }
+
+  //     final String model = response.toString();
+
+  //     return right(vendorModel);
+  //   } on DioException catch (e) {
+  //     var error = CustomDioExceptions.handleError(e);
+  //     return left(error);
+  //   }
+  // }
+}

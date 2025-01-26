@@ -160,7 +160,7 @@ class AuthProvider extends ChangeNotifier {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Something went wrong. Please try again."),
+          content: Text("Something went wrong. Please try again. "),
           backgroundColor: Colors.red,
         ),
       );

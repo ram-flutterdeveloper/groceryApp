@@ -4,7 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:grocery_app/src/core/network_services/dio_client.dart';
 import 'package:grocery_app/src/logic/repo/auth_repo.dart';
+import 'package:grocery_app/src/logic/repo/product_repo.dart';
 import 'package:grocery_app/src/logic/services/auth_service_locator.dart';
+import 'package:grocery_app/src/logic/services/home_locator.dart';
 
 
 
@@ -19,7 +21,7 @@ class ServiceLocator
     getIt.registerSingleton(Dio());
     getIt.registerSingleton(DioClient(getIt<Dio>()));
     getIt.registerSingleton(AuthServices());
-    // getIt.registerSingleton(ProductService());
+     getIt.registerSingleton(ProductService());
     //    getIt.registerSingleton(StoreService());
     //     getIt.registerSingleton(HomeService());
 
@@ -27,7 +29,7 @@ class ServiceLocator
     
     // Repos
      getIt.registerSingleton(AuthRepo(getIt<AuthServices>()));
-//      getIt.registerSingleton(ProductRepo(getIt<ProductService>()));
+          getIt.registerSingleton(ProductRepo(getIt<ProductService>()));
 // getIt.registerSingleton(StoreRepo(getIt<StoreService>()));
 // getIt.registerSingleton(HomeRepo(getIt<HomeService>()));
    

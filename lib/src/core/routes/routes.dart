@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grocery_app/src/ui/bottomnavigation/bottom_bar_widget.dart';
 import 'package:grocery_app/src/ui/entername/enter_fullname_screen.dart';
+import 'package:grocery_app/src/ui/fruitvegidetail/fruit_veggie_detail.dart';
 import 'package:grocery_app/src/ui/login/login_screen.dart';
 import 'package:grocery_app/src/ui/onboarding/on_boarding_screen.dart';
 import 'package:grocery_app/src/ui/otp/otp_screen.dart';
@@ -50,6 +51,11 @@ class MyRoutes {
           path: BOTTOMNAV,
           name: BOTTOMNAV,
           pageBuilder: (context, state) => const BottomBarWidget(),
+        ),
+        animatedGoRoute(
+          path: FRUITVEGGIEDETAIL,
+          name: FRUITVEGGIEDETAIL,
+          pageBuilder: (context, state) => const FruitVeggieDetail(),
         ),
 
         //   animatedGoRoute(
@@ -176,10 +182,11 @@ class MyRoutes {
   /// Route constants
   static const SPLASH = "/";
   static const FULLNAME = "/fullname";
-
   static const BOTTOMNAV = "/bottomnav";
-
   static const HOME = "/home";
+   static const FRUITVEGGIEDETAIL = "/FruitVeggieDetail";
+
+  
 
   static const SELECTACCOUNT = "/selectAccount";
   static const DASHBOARD = "/dashboard";

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/src/common_widget/network_image.dart';
+import 'package:grocery_app/src/logic/provider/home_provider.dart';
 import 'package:grocery_app/src/ui/card_checkout/card_checkout_screen.dart';
 import 'package:grocery_app/src/ui/edit_profile/edit_profile_screen.dart';
 import 'package:grocery_app/src/ui/message/message_screen.dart';
@@ -9,6 +10,7 @@ import 'package:grocery_app/src/ui/static_page/static_page_screen.dart';
 import 'package:grocery_app/utils/constants/color_constant.dart';
 import 'package:grocery_app/utils/extensions/uicontext.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -32,7 +34,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               pinned: true,
               backgroundColor: Colors.white,
               leading: const SizedBox(),
-              flexibleSpace: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+              flexibleSpace: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
                 top = constraints.biggest.height;
 
                 return FlexibleSpaceBar(
@@ -44,7 +47,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         top > 100
                             ? Text(
                                 "My  Profile",
-                                style: context.customExtraBold(Colors.white, 14),
+                                style:
+                                    context.customExtraBold(Colors.white, 14),
                               )
                             : const SizedBox(),
 
@@ -63,7 +67,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 AppNetworkImage(
                                   height: top < 150 ? 30 : 50,
                                   width: top < 150 ? 30 : 50,
-                                  imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdQLwDqDwd2JfzifvfBTFT8I7iKFFevcedYg&s",
+                                  imageUrl:
+                                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdQLwDqDwd2JfzifvfBTFT8I7iKFFevcedYg&s",
                                   radius: 90,
                                   backGroundColor: Colors.white,
                                   boxFit: BoxFit.fill,
@@ -75,7 +80,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         child: Container(
                                           height: 18,
                                           width: 18,
-                                          decoration: BoxDecoration(color: APPCOLOR.lightGreen, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(5)),
+                                          decoration: BoxDecoration(
+                                              color: APPCOLOR.lightGreen,
+                                              border: Border.all(
+                                                  color: Colors.white),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
                                           child: Center(
                                             child: Icon(
                                               MdiIcons.pencil,
@@ -97,11 +107,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Text(
                                   "Smith Mate",
-                                  style: context.customExtraBold(top < 100 ? Colors.black : Colors.white, 14),
+                                  style: context.customExtraBold(
+                                      top < 100 ? Colors.black : Colors.white,
+                                      14),
                                 ),
                                 Text(
                                   'smithmate@example.com',
-                                  style: context.customRegular(top < 100 ? Colors.black : Colors.white, 10),
+                                  style: context.customRegular(
+                                      top < 100 ? Colors.black : Colors.white,
+                                      10),
                                 )
                               ],
                             ),
@@ -114,7 +128,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     background: Container(
                       height: 200,
-                      decoration: BoxDecoration(color: APPCOLOR.lightGreen, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
+                      decoration: BoxDecoration(
+                          color: APPCOLOR.lightGreen,
+                          borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30))),
                     ));
               }),
             ),
@@ -122,6 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
         body: Column(
           children: [
+
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -238,27 +257,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-              height: 50,
-              width: MediaQuery.sizeOf(context).width,
-              decoration: BoxDecoration(color: APPCOLOR.lightGreen, borderRadius: BorderRadius.circular(10)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    MdiIcons.logout,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "Logout",
-                    style: context.customMedium(Colors.white, 16),
-                  ),
-                ],
+         
+            InkWell(
+              onTap: () 
+              {
+                print("fjnghkjfjghj");
+                Provider.of<ProductProvider>(context, listen: false)
+                    .customerLogOut(context);
+              },
+              child: Container(
+                margin: const EdgeInsets.only(
+                    left: 15, right: 15, top: 10, bottom: 10),
+                height: 50,
+                width: MediaQuery.sizeOf(context).width,
+                decoration: BoxDecoration(
+                    color: APPCOLOR.lightGreen,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      MdiIcons.logout,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Logout",
+                      style: context.customMedium(Colors.white, 16),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

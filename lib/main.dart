@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grocery_app/src/core/network_services/service_locator.dart';
 import 'package:grocery_app/src/core/routes/routes.dart';
 import 'package:grocery_app/src/logic/provider/auth_provider.dart';
+import 'package:grocery_app/src/logic/provider/home_provider.dart';
 import 'package:grocery_app/src/ui/splash/splash_screen.dart';
 import 'package:grocery_app/utils/constants/color_constant.dart';
 import 'package:grocery_app/utils/constants/string_constant.dart';
@@ -32,7 +33,7 @@ class MyApplication extends StatelessWidget {
         child: MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (_) => AuthProvider()),
-            // ChangeNotifierProvider(create: (_) => DaySelectionProvider()),
+             ChangeNotifierProvider(create: (_) => ProductProvider()),
             // ChangeNotifierProvider(create: (_) => LoginProvider()),
             // ChangeNotifierProvider(create: (_) => ProductProvider()),
             // ChangeNotifierProvider(create: (_) => HomeProvider()),
