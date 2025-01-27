@@ -27,7 +27,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   skipFunction() {
     SharedPrefUtils.setFreshInstall(isFresh: false).then(
-      (value) => context.clearAndPush(routePath: MyRoutes.LOGIN, args: 0),
+      (value) => context.clearAndPush(routePath: MyRoutes.BOTTOMNAV, args: 0),
     );
 
     // Navigator.pushReplacement(context, MaterialPageRoute(

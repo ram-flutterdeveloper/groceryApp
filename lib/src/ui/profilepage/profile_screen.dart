@@ -3,6 +3,8 @@ import 'package:grocery_app/src/common_widget/network_image.dart';
 import 'package:grocery_app/src/logic/provider/home_provider.dart';
 import 'package:grocery_app/src/ui/card_checkout/card_checkout_screen.dart';
 import 'package:grocery_app/src/ui/edit_profile/edit_profile_screen.dart';
+import 'package:grocery_app/src/ui/map/google_map.dart';
+import 'package:grocery_app/src/ui/mapscreen/map_screen.dart';
 import 'package:grocery_app/src/ui/message/message_screen.dart';
 import 'package:grocery_app/src/ui/notification/notification_screen.dart';
 import 'package:grocery_app/src/ui/rating_review/rating_review_screen.dart';
@@ -140,7 +142,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
         body: Column(
           children: [
-
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -253,14 +254,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       title: const Text('Grocery List'),
                       trailing: Icon(MdiIcons.chevronRight),
                     ),
+                    ListTile(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) {
+                            return MapScreen();
+                          },
+                        ));
+                      },
+                      leading: Icon(MdiIcons.basketOutline),
+                      title: const Text('Map List'),
+                      trailing: Icon(MdiIcons.chevronRight),
+                    ),
                   ],
                 ),
               ),
             ),
-         
             InkWell(
-              onTap: () 
-              {
+              onTap: () {
                 print("fjnghkjfjghj");
                 Provider.of<ProductProvider>(context, listen: false)
                     .customerLogOut(context);

@@ -1,5 +1,20 @@
 # This is a generated file; do not edit or check into version control.
 connectivity_plus=/Users/apple/.pub-cache/hosted/pub.dev/connectivity_plus-6.1.2/
+flutter_plugin_android_lifecycle=/Users/apple/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.24/
+geocoding=/Users/apple/.pub-cache/hosted/pub.dev/geocoding-3.0.0/
+geocoding_android=/Users/apple/.pub-cache/hosted/pub.dev/geocoding_android-3.3.1/
+geocoding_ios=/Users/apple/.pub-cache/hosted/pub.dev/geocoding_ios-3.0.1/
+geolocator=/Users/apple/.pub-cache/hosted/pub.dev/geolocator-13.0.2/
+geolocator_android=/Users/apple/.pub-cache/hosted/pub.dev/geolocator_android-4.6.1/
+geolocator_apple=/Users/apple/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.8+1/
+geolocator_web=/Users/apple/.pub-cache/hosted/pub.dev/geolocator_web-4.1.1/
+geolocator_windows=/Users/apple/.pub-cache/hosted/pub.dev/geolocator_windows-0.2.3/
+google_api_headers=/Users/apple/.pub-cache/hosted/pub.dev/google_api_headers-1.6.0/
+google_maps_flutter=/Users/apple/.pub-cache/hosted/pub.dev/google_maps_flutter-2.10.0/
+google_maps_flutter_android=/Users/apple/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.14.12/
+google_maps_flutter_ios=/Users/apple/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.13.2/
+google_maps_flutter_web=/Users/apple/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.5.10/
+package_info_plus=/Users/apple/.pub-cache/hosted/pub.dev/package_info_plus-4.2.0/
 path_provider=/Users/apple/.pub-cache/hosted/pub.dev/path_provider-2.1.5/
 path_provider_android=/Users/apple/.pub-cache/hosted/pub.dev/path_provider_android-2.2.15/
 path_provider_foundation=/Users/apple/.pub-cache/hosted/pub.dev/path_provider_foundation-2.4.1/
