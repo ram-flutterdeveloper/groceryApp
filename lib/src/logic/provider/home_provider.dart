@@ -6,6 +6,7 @@ import 'package:grocery_app/src/data/allProduct_model.dart';
 import 'package:grocery_app/src/data/banners.dart';
 import 'package:grocery_app/src/data/best_dealProduct.dart';
 import 'package:grocery_app/src/data/product_category.dart';
+import 'package:grocery_app/src/data/wish_list_model.dart';
 import 'package:grocery_app/src/logic/repo/product_repo.dart';
 import 'package:grocery_app/utils/constants/shared_pref_utils.dart';
 import 'package:grocery_app/utils/extensions/extensions.dart';
@@ -198,12 +199,7 @@ class ProductProvider extends ChangeNotifier {
   Set<String> wishlist = {}; // To store product IDs in the wishlist
 
   // Function to add/remove product from wishlist
-  
-  
-  
-  
-  
-  
+
   Future<void> toggleWishlist(BuildContext context, String productId) async {
     try {
       if (wishlist.contains(productId)) {
@@ -225,6 +221,112 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
+  // Future<bool> addToCart(BuildContext context, String productId) async
+  // {
+  //   //context.showLoader(show: true);
 
-  
+  //   var data =
+  //   {
+  //     "productId": productId, "quantity": 1};
+
+  //   try {
+  //     var result = await _homeRepo.addToCart(data);
+
+  //     return result.fold(
+  //       (error) {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(
+  //             content: Text(error.message),
+  //             backgroundColor: Colors.red,
+  //           ),
+  //         );
+  //         return false;
+  //       },
+  //       (response) {
+  //         Fluttertoast.showToast(
+  //           msg: "Wishlist updated successfully!",
+  //           toastLength: Toast.LENGTH_SHORT,
+  //           gravity: ToastGravity.BOTTOM,
+  //           backgroundColor: Colors.green,
+  //           textColor: Colors.white,
+  //           fontSize: 14.0,
+  //         );
+
+  //         return true;
+  //       },
+  //     );
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
+
+  Set<String> cartItems = {}; // Stores added cart items
+  Map<String, bool> isLoading = {}; // Tracks loading state per product
+
+  Future<void> addToCart(BuildContext context, String productId) async {
+    if (cartItems.contains(productId)) return; // Prevent duplicate additions
+
+    isLoading[productId] = true;
+    notifyListeners();
+
+    var data = {"productId": productId, "quantity": 1};
+
+    try {
+      var result = await _homeRepo.addToCart(data);
+
+      result.fold(
+        (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(error.message),
+              backgroundColor: Colors.red,
+            ),
+          );
+        },
+        (response) {
+          cartItems.add(productId); // Update cart state on success
+          Fluttertoast.showToast(
+            msg: "Added to cart successfully!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 14.0,
+          );
+        },
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text("Something went wrong"), backgroundColor: Colors.red),
+      );
+    }
+
+    isLoading[productId] = false;
+    notifyListeners();
+  }
+
+  bool isWishListItemLoadingg = true;
+
+  List<WishListItem> wishListItem = [];
+
+  int totalItems=0;
+
+  Future<void> gettAllWishList(BuildContext context) async {
+    var data = {};
+
+    var result = await _homeRepo.gettAllWishList(data);
+    return result.fold(
+      (error) {
+        isWishListItemLoadingg = false;
+        notifyListeners();
+      },
+      (response) {
+        wishListItem = response.items!;
+        totalItems=response.totalItems;
+        isWishListItemLoadingg = false;
+        notifyListeners();
+      },
+    );
+  }
 }

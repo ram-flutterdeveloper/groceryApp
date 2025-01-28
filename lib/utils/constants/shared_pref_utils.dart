@@ -2,7 +2,6 @@
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 // Shared preference for the app to store data locally
 class SharedPrefUtils {
   SharedPrefUtils._();
@@ -12,11 +11,11 @@ class SharedPrefUtils {
   static String? _refreshToken;
   static const String PROFILE_PIC = "profile_pic";
   static const String BADGE_URL = "badge_url";
-  static  String USER_NAME = "username";
+  static String USER_NAME = "username";
   static const String INS_RANDOM = "ins_random";
   static const String INS_NearBy = "ins_nearby";
   static const String USER_ID = "user_id";
-  static  String PHONE = "phone";
+  static String PHONE = "phone";
   static const String BACK_STATUS = "back_status";
   static const String HAND_OF_ACTION = "hand_of_action";
   static const String VERIFIED_USER = "verified_user";
@@ -108,7 +107,7 @@ class SharedPrefUtils {
     return _token;
   }
 
-   static Future<String?> getRefreshToken() async {
+  static Future<String?> getRefreshToken() async {
     final sp = await SharedPreferences.getInstance();
     _refreshToken = sp.getString(REFRESH_TOKEN);
     return _refreshToken;
@@ -139,6 +138,7 @@ class SharedPrefUtils {
 
   ///Set is fresh install
   static Future<bool> setFreshInstall({required bool isFresh}) {
+    print("hjdfghkdfkjgh  ${isFresh}");
     return SharedPreferences.getInstance()
         .then((sp) async => await sp.setBool(IS_FRESH_INSTALL, isFresh));
   }
@@ -146,6 +146,7 @@ class SharedPrefUtils {
   /// Get is Fresh install
   static Future<bool> isFreshInstall() async {
     final sp = await SharedPreferences.getInstance();
+    print("hjdfghkddddfkjgh  ${sp.getBool(IS_FRESH_INSTALL)}");
     return sp.getBool(IS_FRESH_INSTALL) ?? true;
   }
 
@@ -157,7 +158,7 @@ class SharedPrefUtils {
   /// Get Selected profile, will be used
   static Future<String?> getSelectedProfile() async {
     final sp = await SharedPreferences.getInstance();
-    return sp.getString(SELECTED_PROFILE) ;
+    return sp.getString(SELECTED_PROFILE);
   }
 
   /// Get is Fresh install

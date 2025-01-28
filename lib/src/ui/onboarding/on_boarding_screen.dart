@@ -29,12 +29,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     SharedPrefUtils.setFreshInstall(isFresh: false).then(
       (value) => context.clearAndPush(routePath: MyRoutes.BOTTOMNAV, args: 0),
     );
+  }
 
-    // Navigator.pushReplacement(context, MaterialPageRoute(
-    //   builder: (context) {
-    //     return const LoginScreen();
-    //   },
-    // ));
+  skipbyarrowFunction() {
+    SharedPrefUtils.setFreshInstall(isFresh: false).then(
+      (value) => context.clearAndPush(routePath: MyRoutes.LOGIN, args: 0),
+    );
   }
 
   onChangedFunction(int index) {
@@ -446,7 +446,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         child: Center(
                           child: InkWell(
                             onTap: () {
-                              skipFunction();
+                              skipbyarrowFunction();
+                              //skipFunction();
                             },
                             child: Container(
                               height: 70,

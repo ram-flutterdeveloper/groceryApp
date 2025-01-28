@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grocery_app/src/common_widget/network_image.dart';
 import 'package:grocery_app/src/core/routes/routes.dart';
@@ -235,8 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: InkWell(
                                     onTap: () async {
                                       if (await SharedPrefUtils.getToken() !=
-                                          null) 
-                                          {
+                                          null) {
                                         provider.toggleWishlist(
                                             context, bestdealproduct.id!);
                                       } else {
@@ -285,6 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.005,
                         ),
+                        const Spacer(),
                         Row(
                           children: [
                             Row(
@@ -313,22 +314,77 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ],
                             ),
+
+                            // Align(
+                            //   alignment: Alignment.centerRight,
+                            //   child: InkWell(
+                            //     onTap: () async {
+                            //       bool success = await provider.addToCart(context, bestdealproduct.id!);
+                            //     if (success) {
+                            //       Fluttertoast.showToast(
+                            //         msg: "Product added to cart!",
+                            //         toastLength: Toast.LENGTH_SHORT,
+                            //         gravity: ToastGravity.BOTTOM,
+                            //         backgroundColor: Colors.green,
+                            //         textColor: Colors.white,
+                            //         fontSize: 14.0,
+                            //       );
+                            //     }
+
+                            //     },
+                            //     child: Container(
+                            //       height:
+                            //           MediaQuery.of(context).size.height * 0.035,
+                            //       width: MediaQuery.of(context).size.width * 0.1,
+                            //       decoration: BoxDecoration(
+                            //         color: APPCOLOR.lightGreen,
+                            //         borderRadius: BorderRadius.circular(5),
+                            //       ),
+                            //       child: Center(
+                            //         child: Text(
+                            //           'Add',
+                            //           style:
+                            //               context.customRegular(Colors.white, 12),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             const Spacer(),
                             Align(
                               alignment: Alignment.centerRight,
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.035,
-                                width: MediaQuery.of(context).size.width * 0.1,
-                                decoration: BoxDecoration(
-                                  color: APPCOLOR.lightGreen,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Add',
-                                    style:
-                                        context.customRegular(Colors.white, 12),
+                              child: GestureDetector(
+                                onTap: provider.isLoading[bestdealproduct.id] ??
+                                        false
+                                    ? null
+                                    : () => provider.addToCart(
+                                        context, bestdealproduct.id!),
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.035,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  decoration: BoxDecoration(
+                                    color: provider.cartItems
+                                            .contains(bestdealproduct.id)
+                                        ? Colors.grey
+                                        : APPCOLOR.lightGreen,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Center(
+                                    child: provider.isLoading[
+                                                bestdealproduct.id] ??
+                                            false
+                                        ? CircularProgressIndicator(
+                                            color: Colors.white, strokeWidth: 2)
+                                        : Text(
+                                            provider.cartItems.contains(
+                                                    bestdealproduct.id)
+                                                ? 'Added'
+                                                : 'Add',
+                                            style: context.customRegular(
+                                                Colors.white, 12),
+                                          ),
                                   ),
                                 ),
                               ),

@@ -62,6 +62,10 @@ class Product {
   List<dynamic>? zones;
   List<ProductReview>? productReview;
 
+
+
+  
+
   Product({
     this.id,
     this.name,

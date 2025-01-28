@@ -56,6 +56,14 @@ class ProductService extends ApiService {
     return response;
   }
 
+   Future gettAllWishList(data) async {
+    var response = await api.get(APIURL.gettAllWishList, data: jsonEncode(data));
+
+    return response;
+  }
+
+
+
   
 
 

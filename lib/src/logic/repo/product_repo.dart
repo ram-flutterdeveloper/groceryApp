@@ -7,6 +7,7 @@ import 'package:grocery_app/src/data/allProduct_model.dart';
 import 'package:grocery_app/src/data/banners.dart';
 import 'package:grocery_app/src/data/best_dealProduct.dart';
 import 'package:grocery_app/src/data/product_category.dart';
+import 'package:grocery_app/src/data/wish_list_model.dart';
 import 'package:grocery_app/src/logic/services/home_locator.dart';
 
 class ProductRepo {
@@ -66,30 +67,42 @@ class ProductRepo {
     }
   }
 
-  FutureResult<String> addToWish(data) async 
-  {
+  FutureResult<String> addToWish(data) async {
     try {
       var response = await _productService.addToWish(data);
-     
-       final String model = response.toString();
+
+      final String model = response.toString();
 
       return right(model);
-    } on DioException catch (e) 
-    {
+    } on DioException catch (e) {
       print("djhgfjdfhjg  ${e}");
       var error = CustomDioExceptions.handleError(e);
       return left(error);
     }
   }
 
-   FutureResult<String> addToCart(data) async 
-  {
+  FutureResult<String> addToCart(data) async {
     try {
       var response = await _productService.addToCart(data);
-     
-       final String model = response.toString();
+
+      final String model = response.toString();
 
       return right(model);
+    } on DioException catch (e) {
+      print("djhgfjdfhjg  ${e}");
+      var error = CustomDioExceptions.handleError(e);
+      return left(error);
+    }
+  }
+
+  FutureResult<WishListModel> gettAllWishList(data) async {
+    try {
+      var response = await _productService.gettAllWishList(data);
+      WishListModel wishListModel=wishListModelFromJson(response.toString());
+      
+     // final String model = response.toString();
+
+      return right(wishListModel);
     } on DioException catch (e) 
     {
       print("djhgfjdfhjg  ${e}");
@@ -97,9 +110,6 @@ class ProductRepo {
       return left(error);
     }
   }
-
-
-
 
   FutureResult<BannerModel> getBanners(data, BuildContext context) async {
     try {

@@ -29,21 +29,11 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 2), () async {
       if (await SharedPrefUtils.isFreshInstall()) {
         context.clearAndPush(routePath: MyRoutes.ONBOARDING);
-      } else 
-      {
-        print("kdsbfjhdkjfdfghv  ${await SharedPrefUtils.getToken()}");
-        if (await SharedPrefUtils.getToken() == "1" ||
-            await SharedPrefUtils.getToken() == null) {
-          // context.clearAndPush(routePath: MyRoutes.SELECTACCOUNT);
-        } else {
-          context.clearAndPush(routePath: MyRoutes.BOTTOMNAV);
-        }
+      } else {
+        context.clearAndPush(routePath: MyRoutes.BOTTOMNAV);
       }
     });
 
-    Future.delayed(const Duration(seconds: 2), () async {
-      context.clearAndPush(routePath: MyRoutes.ONBOARDING);
-    });
     super.initState();
   }
 

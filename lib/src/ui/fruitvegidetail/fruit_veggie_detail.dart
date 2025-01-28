@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_app/src/common_widget/network_image.dart';
+import 'package:grocery_app/src/core/routes/routes.dart';
 import 'package:grocery_app/src/logic/provider/home_provider.dart';
 import 'package:grocery_app/utils/constants/assets_constant.dart';
 import 'package:grocery_app/utils/constants/color_constant.dart';
+import 'package:grocery_app/utils/constants/shared_pref_utils.dart';
 import 'package:grocery_app/utils/extensions/uicontext.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +39,8 @@ class _FruitVeggieDetailState extends State<FruitVeggieDetail> {
             width: 20,
             child: InkWell(
                 onTap: () {
+                  Provider.of<ProductProvider>(context, listen: false)
+                      .gettAllProduct(context, "");
                   Navigator.of(context).pop();
                 },
                 child: SvgPicture.asset(
@@ -71,8 +76,7 @@ class _FruitVeggieDetailState extends State<FruitVeggieDetail> {
     );
   }
 
-  Widget productWidget() 
-  {
+  Widget productWidget() {
     return Consumer<ProductProvider>(builder: (context, provider, child) {
       if (provider.isLoadingg) {
         return Padding(
@@ -143,7 +147,26 @@ class _FruitVeggieDetailState extends State<FruitVeggieDetail> {
                                   Positioned(
                                     right: 5,
                                     top: 5,
-                                    child: Icon(Icons.favorite_border),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        if (await SharedPrefUtils.getToken() !=
+                                            null) 
+                                            {
+                                          provider.toggleWishlist(
+                                              context, product.id!);
+                                        } else {
+                                          context.push(MyRoutes.LOGIN);
+                                        }
+                                      },
+                                      child: Icon(
+                                        provider.wishlist.contains(product.id)
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: provider.wishlist.contains(product.id)
+                                            ? Colors.red
+                                            : Colors.grey,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),

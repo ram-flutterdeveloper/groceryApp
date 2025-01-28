@@ -12,16 +12,14 @@ class APIURL {
   static const String getAllcategory = "${BASE_URL}categories";
   static const String addToWish = "${BASE_URL}carts/wishlist/items";
   static const String addToCart = "${BASE_URL}carts/items";
-
-
-  
+  static const String gettAllWishList = "${BASE_URL}carts/wishlist";
 
   static const String updateStore = "${BASE_URL}stores/";
   static const String forgetPassword = "${BASE_URL}auth/forgot-password/vendor";
   static const String verifyForgetPassword =
       "${BASE_URL}auth/forgot-password-verify-otp/vendor";
   static const String reset_password = "${BASE_URL}auth/reset-password/vendor";
-  
+
   static const String getProduct = "${BASE_URL}products";
   static const String getCategoryByLevel = "${BASE_URL}categories/by-level/1";
   static const String getMe = "${BASE_URL}auth/me";

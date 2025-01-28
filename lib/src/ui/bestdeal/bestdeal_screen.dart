@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_app/src/common_widget/network_image.dart';
+import 'package:grocery_app/src/core/routes/routes.dart';
 import 'package:grocery_app/src/logic/provider/home_provider.dart';
 import 'package:grocery_app/utils/constants/assets_constant.dart';
 import 'package:grocery_app/utils/constants/color_constant.dart';
+import 'package:grocery_app/utils/constants/shared_pref_utils.dart';
 import 'package:grocery_app/utils/extensions/uicontext.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -129,6 +133,8 @@ class _BestDealScreenState extends State<BestDealScreen> {
             ),
           ),
         ),
+     
+     
         body: itemBestdeal());
   }
 
@@ -144,53 +150,84 @@ class _BestDealScreenState extends State<BestDealScreen> {
           child: GridView.builder(
             itemCount: provider.bestdeal.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.height / 1.5),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10),
+              crossAxisCount: 2,
+              childAspectRatio: MediaQuery.of(context).size.width /
+                  (MediaQuery.of(context).size.height / 1.5),
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
             itemBuilder: (context, index) {
               var bestdealproduct = provider.bestdeal[index];
-              return Container(
+              return 
+              Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.1),
-                        blurRadius: 1,
-                        offset: const Offset(5, 5),
-                      ),
-                    ]),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      blurRadius: 1,
+                      offset: const Offset(5, 5),
+                    ),
+                  ],
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 160,
-                        width: MediaQuery.sizeOf(context).width,
-                        // width: 150,
+                        height: MediaQuery.of(context).size.height *
+                            0.15, // Dynamic height
+                        width: MediaQuery.of(context).size.width *
+                            0.4, // Dynamic width
                         decoration: BoxDecoration(
-                            color: APPCOLOR.bgGrey,
-                            borderRadius: BorderRadius.circular(15)),
+                          color: APPCOLOR.bgGrey,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            AppNetworkImage(
-                                height: 150,
-                                width: 140,
+                            Center(
+                              child: AppNetworkImage(
+                                height: MediaQuery.of(context).size.height * 0.13,
+                                width: MediaQuery.of(context).size.width * 0.35,
                                 imageUrl:
                                     bestdealproduct.productImages?.first.url ??
                                         "",
-                                backGroundColor: Colors.transparent),
+                                backGroundColor: Colors.transparent,
+                              ),
+                            ),
                             Positioned(
-                                right: 5,
-                                top: 5,
-                                child: Icon(Icons.favorite_border))
+                                  right: 5,
+                                  top: 5,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      if (await SharedPrefUtils.getToken() !=
+                                          null) {
+                                        provider.toggleWishlist(
+                                            context, bestdealproduct.id!);
+                                      } else {
+                                        context.push(MyRoutes.LOGIN);
+                                      }
+                                    },
+                                    child: Icon(
+                                      provider.wishlist
+                                              .contains(bestdealproduct.id)
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: provider.wishlist
+                                              .contains(bestdealproduct.id)
+                                          ? Colors.red
+                                          : Colors.grey,
+                                    ),
+                                  ),
+                                ),
                           ],
                         ),
                       ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.005),
                       Text(
                         bestdealproduct.name ?? "",
                         textAlign: TextAlign.left,
@@ -198,23 +235,19 @@ class _BestDealScreenState extends State<BestDealScreen> {
                         overflow: TextOverflow.ellipsis,
                         style: context.customMedium(APPCOLOR.balck1A1A1A, 16),
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.005),
                       Text(
                         bestdealproduct.unit ?? "",
                         textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: context.customMedium(
-                            Colors.grey.withOpacity(0.8), 12),
+                          Colors.grey.withOpacity(0.8),
+                          12,
+                        ),
                       ),
-                      const SizedBox(
-                        height: 3,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.005,
-                      ),
+                      Spacer(),
                       Row(
                         children: [
                           Row(
@@ -242,13 +275,14 @@ class _BestDealScreenState extends State<BestDealScreen> {
                               ),
                             ],
                           ),
-                          const Spacer(),
+                          Spacer(),
                           Align(
                             alignment: Alignment.centerRight,
                             child: Container(
                               height:
                                   MediaQuery.of(context).size.height * 0.035,
-                              width: MediaQuery.of(context).size.width * 0.1,
+                              width: MediaQuery.of(context).size.width *
+                                  0.12, // Adjusted dynamic width
                               decoration: BoxDecoration(
                                 color: APPCOLOR.lightGreen,
                                 borderRadius: BorderRadius.circular(5),
@@ -271,7 +305,145 @@ class _BestDealScreenState extends State<BestDealScreen> {
             },
           ),
         );
+
+        // Padding(
+        //   padding: const EdgeInsets.all(15),
+        //   child: GridView.builder(
+        //     itemCount: provider.bestdeal.length,
+        //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //         crossAxisCount: 2,
+        //         childAspectRatio: MediaQuery.of(context).size.width /
+        //             (MediaQuery.of(context).size.height / 1.5),
+        //         crossAxisSpacing: 10,
+        //         mainAxisSpacing: 10),
+        //     itemBuilder: (context, index) {
+        //       var bestdealproduct = provider.bestdeal[index];
+        //       return Container(
+        //         decoration: BoxDecoration(
+        //             color: Colors.white,
+        //             borderRadius: BorderRadius.circular(15),
+        //             boxShadow: [
+        //               BoxShadow(
+        //                 color: Colors.grey.withOpacity(0.1),
+        //                 blurRadius: 1,
+        //                 offset: const Offset(5, 5),
+        //               ),
+        //             ]),
+        //         child: Padding(
+        //           padding: const EdgeInsets.all(5),
+        //           child:
+        //           Column(
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             children: [
+        //               Container(
+        //                 height: 100.h,
+        //                 width: MediaQuery.sizeOf(context).width,
+        //                 // width: 150,
+        //                 decoration: BoxDecoration(
+        //                     color: APPCOLOR.bgGrey,
+        //                     borderRadius: BorderRadius.circular(15)),
+        //                 child: Stack(
+        //                   alignment: Alignment.center,
+        //                   children: [
+        //                     AppNetworkImage(
+        //                         height: 90.h,
+        //                         width: 140,
+        //                         imageUrl:
+        //                             bestdealproduct.productImages?.first.url ??
+        //                                 "",
+        //                         backGroundColor: Colors.transparent),
+        //                     Positioned(
+        //                         right: 5,
+        //                         top: 5,
+        //                         child: Icon(Icons.favorite_border))
+        //                   ],
+        //                 ),
+        //               ),
+
+        //               Text(
+        //                 bestdealproduct.name ?? "",
+        //                 textAlign: TextAlign.left,
+        //                 maxLines: 2,
+        //                 overflow: TextOverflow.ellipsis,
+        //                 style: context.customMedium(APPCOLOR.balck1A1A1A, 16),
+        //               ),
+        //               const SizedBox(
+        //                 height: 5,
+        //               ),
+        //               Text(
+        //                 bestdealproduct.unit ?? "",
+        //                 textAlign: TextAlign.left,
+        //                 maxLines: 1,
+        //                 overflow: TextOverflow.ellipsis,
+        //                 style: context.customMedium(
+        //                     Colors.grey.withOpacity(0.8), 12),
+        //               ),
+        //               const SizedBox(
+        //                 height: 3,
+        //               ),
+        //               SizedBox(
+        //                 height: MediaQuery.of(context).size.height * 0.005,
+        //               ),
+        //               Spacer(),
+        //               Row(
+        //                 children: [
+        //                   Row(
+        //                     children: [
+        //                       Text(
+        //                         "\$${bestdealproduct.discountPrice ?? ""}  ",
+        //                         textAlign: TextAlign.left,
+        //                         maxLines: 1,
+        //                         overflow: TextOverflow.ellipsis,
+        //                         style: context.customSemiBold(Colors.black, 12),
+        //                       ),
+        //                       Text(
+        //                         "\$${bestdealproduct.basePrice ?? ""}",
+        //                         textAlign: TextAlign.left,
+        //                         maxLines: 1,
+        //                         overflow: TextOverflow.ellipsis,
+        //                         style: context
+        //                             .customMedium(
+        //                               Colors.grey.withOpacity(0.8),
+        //                               12,
+        //                             )
+        //                             .copyWith(
+        //                               decoration: TextDecoration.lineThrough,
+        //                             ),
+        //                       ),
+        //                     ],
+        //                   ),
+        //                   const Spacer(),
+        //                   Align(
+        //                     alignment: Alignment.centerRight,
+        //                     child: Container(
+        //                       height:
+        //                           MediaQuery.of(context).size.height * 0.035,
+        //                       width: MediaQuery.of(context).size.width * 0.1,
+        //                       decoration: BoxDecoration(
+        //                         color: APPCOLOR.lightGreen,
+        //                         borderRadius: BorderRadius.circular(5),
+        //                       ),
+        //                       child: Center(
+        //                         child: Text(
+        //                           'Add',
+        //                           style:
+        //                               context.customRegular(Colors.white, 12),
+        //                         ),
+        //                       ),
+        //                     ),
+        //                   ),
+        //                 ],
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       );
+        //     },
+        //   ),
+        // );
       }
     });
   }
+
+
 }
