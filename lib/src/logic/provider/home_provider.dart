@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grocery_app/src/core/network_services/service_locator.dart';
 import 'package:grocery_app/src/core/routes/routes.dart';
 import 'package:grocery_app/src/data/allProduct_model.dart';
@@ -16,10 +17,12 @@ class ProductProvider extends ChangeNotifier {
 
   List<Product> products = [];
 
-  Future<void> gettAllProduct(BuildContext context) async {
+  Future<void> gettAllProduct(BuildContext context, String id) async {
     var data = {};
 
-    var result = await _homeRepo.getAllProduct(data, context);
+    print("skdjhfgkf  ${id}");
+
+    var result = await _homeRepo.getAllProduct(data, context, id);
     return result.fold(
       (error) {
         isLoadingg = false;
@@ -63,7 +66,7 @@ class ProductProvider extends ChangeNotifier {
     var result = await _homeRepo.getAllcategory(data, context);
     return result.fold(
       (error) {
-           print("djhgfjdfhjg  ${error}");
+        print("djhgfjdfhjg  ${error}");
         iscategroyloading = false;
         notifyListeners();
       },
@@ -152,4 +155,76 @@ class ProductProvider extends ChangeNotifier {
     _activeIndex = index;
     notifyListeners();
   }
+
+  // Mock API call
+  Future<bool> addToWish(BuildContext context, String productId) async {
+    //context.showLoader(show: true);
+
+    var data = {
+      "productId": productId,
+    };
+
+    try {
+      var result = await _homeRepo.addToWish(data);
+
+      return result.fold(
+        (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(error.message),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return false;
+        },
+        (response) {
+          Fluttertoast.showToast(
+            msg: "Wishlist updated successfully!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 14.0,
+          );
+
+          return true;
+        },
+      );
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Set<String> wishlist = {}; // To store product IDs in the wishlist
+
+  // Function to add/remove product from wishlist
+  
+  
+  
+  
+  
+  
+  Future<void> toggleWishlist(BuildContext context, String productId) async {
+    try {
+      if (wishlist.contains(productId)) {
+        wishlist.remove(productId);
+      } else {
+        // Call the API to add to wishlist
+        var result = await addToWish(context, productId);
+
+        wishlist.add(productId); // Add the product ID to the wishlist
+      }
+      notifyListeners(); // Notify listeners to update the UI
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Something went wrong. Please try again."),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+
+  
 }

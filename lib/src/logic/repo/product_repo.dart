@@ -14,9 +14,10 @@ class ProductRepo {
 
   ProductRepo(this._productService);
 
-  FutureResult<AllProductModel> getAllProduct(data, BuildContext context) async {
+  FutureResult<AllProductModel> getAllProduct(
+      data, BuildContext context, id) async {
     try {
-      var response = await _productService.getAllProduct(data);
+      var response = await _productService.getAllProduct(data, id);
 
       AllProductModel loginResponse =
           allProductModelFromJson(response.toString());
@@ -30,7 +31,8 @@ class ProductRepo {
     }
   }
 
-   FutureResult<BestDealProduct> getBestDealProduct(data, BuildContext context) async {
+  FutureResult<BestDealProduct> getBestDealProduct(
+      data, BuildContext context) async {
     try {
       var response = await _productService.getBestDealProduct(data);
 
@@ -46,16 +48,48 @@ class ProductRepo {
     }
   }
 
-
-  FutureResult<ProductCategory> getAllcategory(data, BuildContext context) async {
+  FutureResult<ProductCategory> getAllcategory(
+      data, BuildContext context) async {
     try {
       var response = await _productService.getAllcategory(data);
 
-      ProductCategory productCategory =  productCategoryFromJson(response.toString());
+      ProductCategory productCategory =
+          productCategoryFromJson(response.toString());
 
-     // final String model = response.toString();
+      // final String model = response.toString();
 
       return right(productCategory);
+    } on DioException catch (e) {
+      print("djhgfjdfhjg  ${e}");
+      var error = CustomDioExceptions.handleError(e);
+      return left(error);
+    }
+  }
+
+  FutureResult<String> addToWish(data) async 
+  {
+    try {
+      var response = await _productService.addToWish(data);
+     
+       final String model = response.toString();
+
+      return right(model);
+    } on DioException catch (e) 
+    {
+      print("djhgfjdfhjg  ${e}");
+      var error = CustomDioExceptions.handleError(e);
+      return left(error);
+    }
+  }
+
+   FutureResult<String> addToCart(data) async 
+  {
+    try {
+      var response = await _productService.addToCart(data);
+     
+       final String model = response.toString();
+
+      return right(model);
     } on DioException catch (e) 
     {
       print("djhgfjdfhjg  ${e}");

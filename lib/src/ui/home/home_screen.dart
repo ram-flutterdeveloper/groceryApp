@@ -6,7 +6,9 @@ import 'package:grocery_app/src/core/routes/routes.dart';
 import 'package:grocery_app/src/logic/provider/home_provider.dart';
 import 'package:grocery_app/src/ui/bestdeal/bestdeal_screen.dart';
 import 'package:grocery_app/src/ui/fruitvegidetail/fruit_veggie_detail.dart';
+import 'package:grocery_app/src/ui/header.dart';
 import 'package:grocery_app/utils/constants/color_constant.dart';
+import 'package:grocery_app/utils/constants/shared_pref_utils.dart';
 import 'package:grocery_app/utils/extensions/extensions.dart';
 import 'package:grocery_app/utils/extensions/uicontext.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -26,8 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Provider.of<ProductProvider>(context, listen: false).getBanners(context);
     Provider.of<ProductProvider>(context, listen: false)
-        .gettAllProduct(context);
-
+        .gettAllProduct(context, "");
     Provider.of<ProductProvider>(context, listen: false)
         .getBestDealProduct(context);
     Provider.of<ProductProvider>(context, listen: false)
@@ -45,55 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
-                      MdiIcons.mapMarkerOutline,
-                      color: APPCOLOR.appGreen,
-                      size: 30,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              "Home",
-                              style: context.customMedium(
-                                  APPCOLOR.black333333, 18),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Icon(
-                              MdiIcons.chevronDown,
-                              color: APPCOLOR.black333333,
-                              size: 30,
-                            )
-                          ],
-                        ),
-                        Text(
-                          "639| Elgin St. Celina, Delaware 10299",
-                          style: context.customMedium(APPCOLOR.grey666666, 14),
-                        ),
-                      ],
-                    )),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Icon(
-                      MdiIcons.shoppingOutline,
-                      color: APPCOLOR.balck1A1A1A,
-                      size: 30,
-                    ),
-                  ],
-                ),
+                Header(),
                 const SizedBox(
                   height: 15,
                 ),
@@ -219,64 +172,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Widget bannerview() {
-  //   return Consumer<ProductProvider>(builder: (context, provider, child)
-  //   {
-  //     if (provider.isBannerLoading) {
-  //       return Center(child: CircularProgressIndicator());
-  //     } else if (provider.banner.isEmpty) {
-  //       return Center(child: Text('No products available'));
-  //     } else {
-  //       return
-  //       Container(
-  //         height: 180,
-  //         decoration: BoxDecoration(
-  //             color: Colors.greenAccent.withOpacity(0.1),
-  //             borderRadius: BorderRadius.circular(15)),
-  //         child: Stack(
-  //           children: [
-  //             Positioned(
-  //                 top: 15,
-  //                 left: 15,
-  //                 child: SizedBox(
-  //                     width: 200,
-  //                     child: Text(
-  //                       "World Food Festival, Bring the world to your Kitchen!",
-  //                       style: context.customExtraBold(Colors.black, 18),
-  //                     ))),
-  //             Positioned(
-  //               bottom: 15,
-  //               left: 15,
-  //               child: Container(
-  //                 height: 40,
-  //                 width: 100,
-  //                 decoration: BoxDecoration(
-  //                   color: APPCOLOR.lightGreen,
-  //                   borderRadius: BorderRadius.circular(5),
-  //                 ),
-  //                 child: Center(
-  //                     child: Text(
-  //                   'Shop now',
-  //                   style: context.customRegular(Colors.white, 14),
-  //                 )),
-  //               ),
-  //             ),
-  //             const Positioned(
-  //                 right: 15,
-  //                 bottom: 15,
-  //                 child: AppNetworkImage(
-  //                     height: 130,
-  //                     width: 150,
-  //                     imageUrl:
-  //                         'https://e7.pngegg.com/pngimages/742/816/png-clipart-coca-cola-can-illustration-coca-cola-soft-drink-surge-pepsi-coke-sweetness-cola-thumbnail.png',
-  //                     backGroundColor: Colors.transparent))
-  //           ],
-  //         ),
-  //       );
-  //     }
-  //   });
-  // }
-
   Widget bestDeal() {
     return Consumer<ProductProvider>(builder: (context, provider, child) {
       if (provider.isBestdealingloading) {
@@ -337,7 +232,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Positioned(
                                   right: 5,
                                   top: 5,
-                                  child: Icon(Icons.favorite_border),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      if (await SharedPrefUtils.getToken() !=
+                                          null) 
+                                          {
+                                        provider.toggleWishlist(
+                                            context, bestdealproduct.id!);
+                                      } else {
+                                        context.push(MyRoutes.LOGIN);
+                                      }
+                                    },
+                                    child: Icon(
+                                      provider.wishlist
+                                              .contains(bestdealproduct.id)
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: provider.wishlist
+                                              .contains(bestdealproduct.id)
+                                          ? Colors.red
+                                          : Colors.grey,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

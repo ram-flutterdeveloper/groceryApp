@@ -10,6 +10,8 @@ class APIURL {
   static const String customerLogOut = "${BASE_URL}auth/logout/customer";
   static const String getBestDealProduct = "${BASE_URL}products/best-deals";
   static const String getAllcategory = "${BASE_URL}categories";
+  static const String addToWish = "${BASE_URL}carts/wishlist/items";
+  static const String addToCart = "${BASE_URL}carts/items";
 
 
   

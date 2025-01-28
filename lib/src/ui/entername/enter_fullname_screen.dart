@@ -113,7 +113,7 @@ class _EnterFullNameScreenState extends State<EnterFullNameScreen> {
               onTap: () async {
                 if (_formKey.currentState?.validate() ?? false) {
                   final success = await pageNotifier.customerRegister(context);
-
+                  print("dshfgjkdfjgh  ${success}");
                   if (success) {
                     context.clearAndPush(routePath: MyRoutes.BOTTOMNAV);
                   }

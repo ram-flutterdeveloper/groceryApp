@@ -71,12 +71,19 @@ class _FruitVeggieDetailState extends State<FruitVeggieDetail> {
     );
   }
 
-  Widget productWidget() {
+  Widget productWidget() 
+  {
     return Consumer<ProductProvider>(builder: (context, provider, child) {
       if (provider.isLoadingg) {
-        return Center(child: CircularProgressIndicator());
+        return Padding(
+          padding: const EdgeInsets.only(left: 120),
+          child: CircularProgressIndicator(),
+        );
       } else if (provider.products.isEmpty) {
-        return Center(child: Text('No products available'));
+        return Padding(
+          padding: const EdgeInsets.only(left: 80),
+          child: Center(child: Text('No products available')),
+        );
       } else {
         return Expanded(
           child: Padding(
@@ -225,136 +232,6 @@ class _FruitVeggieDetailState extends State<FruitVeggieDetail> {
             ),
           ),
         );
-
-        // Expanded(
-        //     child: Padding(
-        //   padding: const EdgeInsets.only(left: 10, right: 10),
-        //   child: GridView.builder(
-        //     itemCount: provider.products.length,
-        //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //         crossAxisCount: 2,
-        //         childAspectRatio: MediaQuery.of(context).size.width /
-        //             (MediaQuery.of(context).size.height / 1.1),
-        //         crossAxisSpacing: 10,
-        //         mainAxisSpacing: 10),
-        //     itemBuilder: (context, index) {
-        //       return Container(
-        //         height: MediaQuery.of(context).size.height * 0.28,
-        //         // width: 150,
-        //         decoration: BoxDecoration(
-        //             color: Colors.white,
-        //             borderRadius: BorderRadius.circular(15),
-        //             boxShadow: [
-        //               BoxShadow(
-        //                 color: Colors.grey.withOpacity(0.1),
-        //                 blurRadius: 1,
-        //                 offset: const Offset(5, 5),
-        //               ),
-        //             ]),
-        //         child: Padding(
-        //           padding: const EdgeInsets.all(5),
-        //           child: Column(
-        //             crossAxisAlignment: CrossAxisAlignment.start,
-        //             children: [
-        //               Container(
-        //                 height: 100,
-        //                 width: 150,
-        //                 decoration: BoxDecoration(
-        //                     color: APPCOLOR.bgGrey,
-        //                     borderRadius: BorderRadius.circular(15)),
-        //                 child: const Stack(
-        //                   alignment: Alignment.center,
-        //                   children: [
-        //                     AppNetworkImage(
-        //                         height: 70,
-        //                         width: 70,
-        //                         imageUrl:
-        //                             "https://5.imimg.com/data5/SELLER/Default/2024/2/385126988/OL/DA/VW/8627346/1l-fortune-sunflower-oil.jpg",
-        //                         backGroundColor: Colors.transparent),
-        //                     Positioned(
-        //                         right: 5,
-        //                         top: 5,
-        //                         child: Icon(Icons.favorite_border))
-        //                   ],
-        //                 ),
-        //               ),
-        //               Text(
-        //                 "Fortune Arhar Dal (Toor Dal)",
-        //                 textAlign: TextAlign.left,
-        //                 maxLines: 2,
-        //                 overflow: TextOverflow.ellipsis,
-        //                 style: context.customMedium(APPCOLOR.balck1A1A1A, 14),
-        //               ),
-        //               const SizedBox(
-        //                 height: 5,
-        //               ),
-        //               Text(
-        //                 "500 ML",
-        //                 textAlign: TextAlign.left,
-        //                 maxLines: 1,
-        //                 overflow: TextOverflow.ellipsis,
-        //                 style: context.customMedium(
-        //                     Colors.grey.withOpacity(0.8), 12),
-        //               ),
-        //               const SizedBox(
-        //                 height: 3,
-        //               ),
-        //               Row(
-        //                 children: [
-        //                   Column(
-        //                     children: [
-        //                       Text(
-        //                         "\$12",
-        //                         textAlign: TextAlign.left,
-        //                         maxLines: 1,
-        //                         overflow: TextOverflow.ellipsis,
-        //                         style: context.customSemiBold(Colors.black, 12),
-        //                       ),
-        //                       const SizedBox(
-        //                         width: 5,
-        //                       ),
-        //                       Text(
-        //                         "\$14",
-        //                         textAlign: TextAlign.left,
-        //                         maxLines: 1,
-        //                         overflow: TextOverflow.ellipsis,
-        //                         style: context
-        //                             .customMedium(
-        //                                 Colors.grey.withOpacity(0.8), 12)
-        //                             .copyWith(
-        //                               decoration: TextDecoration.lineThrough,
-        //                             ),
-        //                       ),
-        //                     ],
-        //                   ),
-        //                   Expanded(
-        //                     child: Align(
-        //                       alignment: Alignment.centerRight,
-        //                       child: Container(
-        //                         height: 40,
-        //                         width: 60,
-        //                         decoration: BoxDecoration(
-        //                           color: APPCOLOR.lightGreen,
-        //                           borderRadius: BorderRadius.circular(5),
-        //                         ),
-        //                         child: Center(
-        //                             child: Text(
-        //                           'Add',
-        //                           style:
-        //                               context.customRegular(Colors.white, 12),
-        //                         )),
-        //                       ),
-        //                     ),
-        //                   )
-        //                 ],
-        //               ),
-        //             ],
-        //           ),
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // ));
       }
     });
   }
@@ -376,10 +253,11 @@ class _FruitVeggieDetailState extends State<FruitVeggieDetail> {
             itemBuilder: (context, index) {
               var category = provider.categoryList[index];
               return InkWell(
-                onTap: ()
-                  {
+                onTap: () {
+                  provider.isLoadingg = true;
+                  provider.gettAllProduct(context, "/category/${category.id}");
                   activeIndexProvider.setActiveIndex(index);
-                 },
+                },
                 child: SizedBox(
                   height: 150,
                   child: Column(

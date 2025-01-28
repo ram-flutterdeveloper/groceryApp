@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/src/ui/cart/cartview_screen.dart';
 import 'package:grocery_app/src/ui/favourite/favourite_screen.dart';
+import 'package:grocery_app/src/ui/header.dart';
 import 'package:grocery_app/src/ui/home/home_screen.dart';
 import 'package:grocery_app/src/ui/profilepage/profile_screen.dart';
 import 'package:grocery_app/utils/constants/color_constant.dart';
@@ -47,10 +48,12 @@ class _BottomBarState extends State<BottomBarWidget> {
     SizeConfig().init(context);
 
     return Scaffold(
+    
       body: PageView(
         controller: bottomWidgetPageController,
         physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
+
           HomeScreen(),
           FavouriteScreen(),
           Mycart(),

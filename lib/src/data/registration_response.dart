@@ -1,19 +1,19 @@
 // To parse this JSON data, do
 //
-//     final registrationResponse = registrationResponseFromJson(jsonString?);
+//     final registrationResponse = registrationResponseFromJson(jsondynamic?);
 
 import 'dart:convert';
 
-RegistrationResponse registrationResponseFromJson(String str) =>
+RegistrationResponse registrationResponseFromJson(dynamic str) =>
     RegistrationResponse.fromJson(json.decode(str));
 
-String? registrationResponseToJson(RegistrationResponse data) =>
+dynamic? registrationResponseToJson(RegistrationResponse data) =>
     json.encode(data.toJson());
 
 class RegistrationResponse {
   Customer? customer;
-  String? accessToken;
-  String? refreshToken;
+  dynamic? accessToken;
+  dynamic? refreshToken;
 
   RegistrationResponse({
     this.customer,
@@ -21,14 +21,14 @@ class RegistrationResponse {
     this.refreshToken,
   });
 
-  factory RegistrationResponse.fromJson(Map<String?, dynamic> json) =>
+  factory RegistrationResponse.fromJson(Map<dynamic?, dynamic> json) =>
       RegistrationResponse(
         customer: Customer.fromJson(json["customer"]),
         accessToken: json["access_token"],
         refreshToken: json["refresh_token"],
       );
 
-  Map<String?, dynamic> toJson() => {
+  Map<dynamic?, dynamic> toJson() => {
         "customer": customer!.toJson(),
         "access_token": accessToken,
         "refresh_token": refreshToken,
@@ -36,15 +36,15 @@ class RegistrationResponse {
 }
 
 class Customer {
-  String? id;
-  String? email;
-  String? firstName;
-  String? lastName;
+  dynamic? id;
+  dynamic? email;
+  dynamic? firstName;
+  dynamic? lastName;
   dynamic name;
   dynamic img;
-  String? authType;
-  String? role;
-  String? phone;
+  dynamic? authType;
+  dynamic? role;
+  dynamic? phone;
   dynamic password;
   bool? isPhoneVerified;
   dynamic vendorType;
@@ -80,7 +80,7 @@ class Customer {
     this.resetTokenExpiresAt,
   });
 
-  factory Customer.fromJson(Map<String?, dynamic> json) => Customer(
+  factory Customer.fromJson(Map<dynamic?, dynamic> json) => Customer(
         id: json["id"],
         email: json["email"],
         firstName: json["firstName"],
@@ -103,7 +103,7 @@ class Customer {
         resetTokenExpiresAt: json["resetTokenExpiresAt"],
       );
 
-  Map<String?, dynamic> toJson() => {
+  Map<dynamic?, dynamic> toJson() => {
         "id": id,
         "email": email,
         "firstName": firstName,

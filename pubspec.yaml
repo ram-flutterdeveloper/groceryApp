@@ -29,6 +29,7 @@ dependencies:
   geocoding: 
   flutter_google_places: 
   google_api_headers:
+  fluttertoast:
 
 
 

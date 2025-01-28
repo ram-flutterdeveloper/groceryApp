@@ -89,20 +89,22 @@ class AuthRepo {
   //   }
   // }
 
-  FutureResult<String> customerRegister(data) async {
+  FutureResult<RegistrationResponse> customerRegister(data) async {
     try {
       var response = await _authServices.userRegister(data);
 
       RegistrationResponse registrationResponse =
           registrationResponseFromJson(response.toString());
+
       await SharedPrefUtils.setToken(
           authToken: registrationResponse.accessToken ?? "");
-      if (response.statCode) {
-        print("dsfklgjkfgbfgkfdgjkhkfdjg");
-      }
+      print("dsfklgjkfgbfgkfdgjkhkfdjg   ${registrationResponse.accessToken}");
+      // if (response.statCode) {
+      //   print("dsfklgjkfgbfgkfdgjkhkfdjg");
+      // }
 
       final String model = response.toString();
-      return right(model);
+      return right(registrationResponse);
     } on DioException catch (e) {
       var error = CustomDioExceptions.handleError(e);
       return left(error);

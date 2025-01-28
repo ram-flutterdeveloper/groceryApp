@@ -143,7 +143,8 @@ class AuthProvider extends ChangeNotifier {
           );
           return false; // Login failed
         },
-        (response) {
+        (response) 
+        {
           // Login success
           context.showLoader(show: false);
           ScaffoldMessenger.of(context).showSnackBar(
