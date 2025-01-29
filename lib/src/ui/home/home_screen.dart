@@ -354,11 +354,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             Align(
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
-                                onTap: provider.isLoading[bestdealproduct.id] ??
-                                        false
-                                    ? null
-                                    : () => provider.addToCart(
-                                        context, bestdealproduct.id!),
+                                onTap: () async {
+                                  if (await SharedPrefUtils.getToken() !=
+                                      null) {
+                                    provider.isLoading[bestdealproduct.id] ??
+                                            false
+                                        ? null
+                                        : () => provider.addToCart(
+                                            context, bestdealproduct.id!);
+                                  } else {
+                                    context.push(MyRoutes.LOGIN);
+                                  }
+                                },
                                 child: Container(
                                   height: MediaQuery.of(context).size.height *
                                       0.035,
@@ -410,7 +417,8 @@ class _HomeScreenState extends State<HomeScreen> {
       } else if (provider.banner.isEmpty) {
         return Center(child: Text('No products available'));
       } else {
-        return CarouselSlider(
+        return 
+        CarouselSlider(
           options: CarouselOptions(
             height: 180,
 
@@ -495,6 +503,8 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }).toList(),
         );
+     
+     
       }
     });
   }
@@ -520,7 +530,9 @@ class _HomeScreenState extends State<HomeScreen> {
           itemBuilder: (context, index) {
             var product = provider.products[index];
             return InkWell(
-              onTap: () {},
+              onTap: () {
+                context.push(MyRoutes.PRODUCTDETAILS, extra: product);
+              },
               child: SizedBox(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

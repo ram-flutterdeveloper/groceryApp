@@ -39,7 +39,7 @@ class Product {
  dynamic additionalInfo;
   dynamic brand;
  dynamic basePrice;
- dynamic discountPrice;
+  dynamic discountPrice;
   dynamic stock;
   dynamic quantity;
  dynamic unit;

@@ -67,6 +67,24 @@ class ProductRepo {
     }
   }
 
+  FutureResult<List<Product>> similarProduct(
+      data, BuildContext context, id) async {
+    try {
+      var response = await _productService.similarProduct(data, id);
+
+      List<Product> products = (response as List)
+          .map((item) => Product.fromJson(item as Map<String, dynamic>))
+          .toList();
+
+      print("sdkjfkjdkfjgjfdjg");
+
+      return right(products);
+    } on DioException catch (e) {
+      var error = CustomDioExceptions.handleError(e);
+      return left(error);
+    }
+  }
+
   FutureResult<String> addToWish(data) async {
     try {
       var response = await _productService.addToWish(data);
@@ -98,13 +116,12 @@ class ProductRepo {
   FutureResult<WishListModel> gettAllWishList(data) async {
     try {
       var response = await _productService.gettAllWishList(data);
-      WishListModel wishListModel=wishListModelFromJson(response.toString());
-      
-     // final String model = response.toString();
+      WishListModel wishListModel = wishListModelFromJson(response.toString());
+
+      // final String model = response.toString();
 
       return right(wishListModel);
-    } on DioException catch (e) 
-    {
+    } on DioException catch (e) {
       print("djhgfjdfhjg  ${e}");
       var error = CustomDioExceptions.handleError(e);
       return left(error);

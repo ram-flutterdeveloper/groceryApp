@@ -20,10 +20,11 @@ class BestDealScreen extends StatefulWidget {
 }
 
 class _BestDealScreenState extends State<BestDealScreen> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+         appBar: AppBar(
           backgroundColor: Colors.white,
           centerTitle: true,
           leading: Center(
@@ -58,7 +59,7 @@ class _BestDealScreenState extends State<BestDealScreen> {
             )
           ],
         ),
-        floatingActionButton: Padding(
+       floatingActionButton: Padding(
           padding: const EdgeInsets.only(left: 30),
           child: Container(
             height: 80,
@@ -133,8 +134,6 @@ class _BestDealScreenState extends State<BestDealScreen> {
             ),
           ),
         ),
-     
-     
         body: itemBestdeal());
   }
 
@@ -158,8 +157,7 @@ class _BestDealScreenState extends State<BestDealScreen> {
             ),
             itemBuilder: (context, index) {
               var bestdealproduct = provider.bestdeal[index];
-              return 
-              Container(
+              return Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
@@ -190,7 +188,8 @@ class _BestDealScreenState extends State<BestDealScreen> {
                           children: [
                             Center(
                               child: AppNetworkImage(
-                                height: MediaQuery.of(context).size.height * 0.13,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.13,
                                 width: MediaQuery.of(context).size.width * 0.35,
                                 imageUrl:
                                     bestdealproduct.productImages?.first.url ??
@@ -199,30 +198,29 @@ class _BestDealScreenState extends State<BestDealScreen> {
                               ),
                             ),
                             Positioned(
-                                  right: 5,
-                                  top: 5,
-                                  child: InkWell(
-                                    onTap: () async {
-                                      if (await SharedPrefUtils.getToken() !=
-                                          null) {
-                                        provider.toggleWishlist(
-                                            context, bestdealproduct.id!);
-                                      } else {
-                                        context.push(MyRoutes.LOGIN);
-                                      }
-                                    },
-                                    child: Icon(
-                                      provider.wishlist
-                                              .contains(bestdealproduct.id)
-                                          ? Icons.favorite
-                                          : Icons.favorite_border,
-                                      color: provider.wishlist
-                                              .contains(bestdealproduct.id)
-                                          ? Colors.red
-                                          : Colors.grey,
-                                    ),
-                                  ),
+                              right: 5,
+                              top: 5,
+                              child: InkWell(
+                                onTap: () async {
+                                  if (await SharedPrefUtils.getToken() !=
+                                      null) {
+                                    provider.toggleWishlist(
+                                        context, bestdealproduct.id!);
+                                  } else {
+                                    context.push(MyRoutes.LOGIN);
+                                  }
+                                },
+                                child: Icon(
+                                  provider.wishlist.contains(bestdealproduct.id)
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: provider.wishlist
+                                          .contains(bestdealproduct.id)
+                                      ? Colors.red
+                                      : Colors.grey,
                                 ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -278,20 +276,33 @@ class _BestDealScreenState extends State<BestDealScreen> {
                           Spacer(),
                           Align(
                             alignment: Alignment.centerRight,
-                            child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.035,
-                              width: MediaQuery.of(context).size.width *
-                                  0.12, // Adjusted dynamic width
-                              decoration: BoxDecoration(
-                                color: APPCOLOR.lightGreen,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Add',
-                                  style:
-                                      context.customRegular(Colors.white, 12),
+                            child: GestureDetector(
+                              onTap: () async {
+                                if (await SharedPrefUtils.getToken() != null) {
+                                  provider.isLoading[bestdealproduct.id] ??
+                                          false
+                                      ? null
+                                      : () => provider.addToCart(
+                                          context, bestdealproduct.id!);
+                                } else {
+                                  context.push(MyRoutes.LOGIN);
+                                }
+                              },
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.035,
+                                width: MediaQuery.of(context).size.width *
+                                    0.12, // Adjusted dynamic width
+                                decoration: BoxDecoration(
+                                  color: APPCOLOR.lightGreen,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Add',
+                                    style:
+                                        context.customRegular(Colors.white, 12),
+                                  ),
                                 ),
                               ),
                             ),
@@ -444,6 +455,4 @@ class _BestDealScreenState extends State<BestDealScreen> {
       }
     });
   }
-
-
 }

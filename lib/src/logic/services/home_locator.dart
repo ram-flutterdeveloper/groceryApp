@@ -44,6 +44,14 @@ class ProductService extends ApiService {
     return response;
   }
 
+  Future similarProduct(data,id) async {
+    var response = await api.get(APIURL.similarProduct+id+"/similar", data: jsonEncode(data));
+
+    return response;
+  }
+
+  
+
    Future addToWish(data) async {
     var response = await api.post(APIURL.addToWish, data: jsonEncode(data));
 

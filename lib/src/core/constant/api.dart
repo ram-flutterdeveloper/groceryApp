@@ -13,6 +13,9 @@ class APIURL {
   static const String addToWish = "${BASE_URL}carts/wishlist/items";
   static const String addToCart = "${BASE_URL}carts/items";
   static const String gettAllWishList = "${BASE_URL}carts/wishlist";
+  static const String similarProduct = "${BASE_URL}products/";
+
+  
 
   static const String updateStore = "${BASE_URL}stores/";
   static const String forgetPassword = "${BASE_URL}auth/forgot-password/vendor";

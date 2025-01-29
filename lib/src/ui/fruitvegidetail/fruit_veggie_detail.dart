@@ -150,8 +150,7 @@ class _FruitVeggieDetailState extends State<FruitVeggieDetail> {
                                     child: InkWell(
                                       onTap: () async {
                                         if (await SharedPrefUtils.getToken() !=
-                                            null) 
-                                            {
+                                            null) {
                                           provider.toggleWishlist(
                                               context, product.id!);
                                         } else {
@@ -162,7 +161,8 @@ class _FruitVeggieDetailState extends State<FruitVeggieDetail> {
                                         provider.wishlist.contains(product.id)
                                             ? Icons.favorite
                                             : Icons.favorite_border,
-                                        color: provider.wishlist.contains(product.id)
+                                        color: provider.wishlist
+                                                .contains(product.id)
                                             ? Colors.red
                                             : Colors.grey,
                                       ),
@@ -226,18 +226,33 @@ class _FruitVeggieDetailState extends State<FruitVeggieDetail> {
                                 Expanded(
                                   child: Align(
                                     alignment: Alignment.centerRight,
-                                    child: Container(
-                                      height: 40,
-                                      width: 60,
-                                      decoration: BoxDecoration(
-                                        color: APPCOLOR.lightGreen,
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          'Add',
-                                          style: context.customRegular(
-                                              Colors.white, 12),
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        if (await SharedPrefUtils.getToken() !=
+                                            null) {
+                                          provider.isLoading[product.id] ??
+                                                  false
+                                              ? null
+                                              : () => provider.addToCart(
+                                                  context, product.id!);
+                                        } else {
+                                          context.push(MyRoutes.LOGIN);
+                                        }
+                                      },
+                                      child: Container(
+                                        height: 40,
+                                        width: 60,
+                                        decoration: BoxDecoration(
+                                          color: APPCOLOR.lightGreen,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            'Add',
+                                            style: context.customRegular(
+                                                Colors.white, 12),
+                                          ),
                                         ),
                                       ),
                                     ),

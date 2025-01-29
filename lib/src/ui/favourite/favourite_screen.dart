@@ -235,6 +235,8 @@ class _FavouriteScreenState extends State<FavouriteScreen>
 
   Widget itemList() {
     return Consumer<ProductProvider>(builder: (context, provider, child) {
+      print(
+          "sdhfgkj  ${provider.wishListItem.length}   ${provider.isWishListItemLoadingg}");
       if (provider.isWishListItemLoadingg) {
         return Expanded(child: Center(child: CircularProgressIndicator()));
       } else if (provider.wishListItem.isEmpty) {

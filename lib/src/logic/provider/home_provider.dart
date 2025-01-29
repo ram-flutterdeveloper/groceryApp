@@ -80,6 +80,8 @@ class ProductProvider extends ChangeNotifier {
     );
   }
 
+  //similarProduct
+
   List<BannerData> banner = [];
   bool isBannerLoading = true;
 
@@ -310,21 +312,84 @@ class ProductProvider extends ChangeNotifier {
 
   List<WishListItem> wishListItem = [];
 
-  int totalItems=0;
+  int totalItems = 0;
 
   Future<void> gettAllWishList(BuildContext context) async {
     var data = {};
 
-    var result = await _homeRepo.gettAllWishList(data);
+    try {
+      var result = await _homeRepo.gettAllWishList(data);
+
+      return result.fold(
+        (error) {
+          print("sdfgdfgfdggf");
+          isWishListItemLoadingg = false;
+          notifyListeners();
+        },
+        (response) {
+          print("lsjfdgjsdfsdfgkdfkgkjkf");
+          wishListItem = response.items!;
+          totalItems = response.totalItems;
+          isWishListItemLoadingg = false;
+          notifyListeners();
+        },
+      );
+    } catch (e) {
+      isWishListItemLoadingg = false;
+      notifyListeners();
+      print("jdsgkdfkghk");
+    }
+  }
+////////////////////////////// product increase ////////////////////////////////////
+
+  int _quantity = 1;
+  double _unitPrice = 0.0;
+  double _totalPrice = 0.0;
+
+  int get quantity => _quantity;
+  double get totalPrice => _totalPrice;
+
+  void setProductPrice(double price) {
+    _unitPrice = price;
+    _totalPrice = _unitPrice * _quantity;
+    notifyListeners();
+  }
+
+  void increaseQuantity() {
+    print("kjfgkhkdfhgkjdhfg");
+    _quantity++;
+    _totalPrice = _unitPrice * _quantity;
+    notifyListeners();
+  }
+
+  void decreaseQuantity() {
+    if (_quantity > 1) {
+      _quantity--;
+      _totalPrice = _unitPrice * _quantity;
+      notifyListeners();
+    }
+  }
+
+  //////////////////////////////////////////////////////////////similar product//////////////////////
+
+  List<Product> similarProductlist = [];
+
+  Future<void> similarProductprovider(BuildContext context, String id) async {
+    var data = {};
+
+   
+
+    var result = await _homeRepo.similarProduct(data, context, id);
     return result.fold(
       (error) {
-        isWishListItemLoadingg = false;
+        //  isLoadingg = false;
         notifyListeners();
       },
       (response) {
-        wishListItem = response.items!;
-        totalItems=response.totalItems;
-        isWishListItemLoadingg = false;
+        print("jkshdfkhdjkfkjdfkgkjdfjgk  ${response}");
+
+        similarProductlist = response! as List<Product>;
+        // isLoadingg = false;
         notifyListeners();
       },
     );

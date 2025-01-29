@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grocery_app/src/data/allProduct_model.dart';
 import 'package:grocery_app/src/ui/bottomnavigation/bottom_bar_widget.dart';
 import 'package:grocery_app/src/ui/entername/enter_fullname_screen.dart';
 import 'package:grocery_app/src/ui/fruitvegidetail/fruit_veggie_detail.dart';
 import 'package:grocery_app/src/ui/login/login_screen.dart';
 import 'package:grocery_app/src/ui/onboarding/on_boarding_screen.dart';
 import 'package:grocery_app/src/ui/otp/otp_screen.dart';
+import 'package:grocery_app/src/ui/productdetails/product_details.dart';
 import 'package:grocery_app/src/ui/splash/splash_screen.dart';
 import 'package:grocery_app/utils/constants/globle_variable.dart';
 
@@ -56,6 +58,25 @@ class MyRoutes {
           path: FRUITVEGGIEDETAIL,
           name: FRUITVEGGIEDETAIL,
           pageBuilder: (context, state) => const FruitVeggieDetail(),
+        ),
+
+        //  animatedGoRoute(
+        //   path: PRODUCTDETAILS,
+        //   name: PRODUCTDETAILS,
+        //   pageBuilder: (context, state)
+        //   {
+        //     return const ProductDetails();
+        //   }
+        // ),
+
+        animatedGoRoute(
+          path: PRODUCTDETAILS,
+          name: PRODUCTDETAILS,
+          pageBuilder: (context, state)
+           {
+            final product = state.extra as Product; // Get the extra object
+            return ProductDetails(product: product);
+          },
         ),
 
         //   animatedGoRoute(
@@ -184,9 +205,8 @@ class MyRoutes {
   static const FULLNAME = "/fullname";
   static const BOTTOMNAV = "/bottomnav";
   static const HOME = "/home";
-   static const FRUITVEGGIEDETAIL = "/FruitVeggieDetail";
-
-  
+  static const FRUITVEGGIEDETAIL = "/FruitVeggieDetail";
+  static const PRODUCTDETAILS = "/productdetails";
 
   static const SELECTACCOUNT = "/selectAccount";
   static const DASHBOARD = "/dashboard";
@@ -204,7 +224,6 @@ class MyRoutes {
   static const CUSTOMERORDER = "/customerorder";
 
   static const PRODUCTFORMSCREEN = "/productformscreen";
-  static const PRODUCTDETAILS = "/productdetails";
 
   static const TRANSACTIONHISTORY = "/transationhistory";
 

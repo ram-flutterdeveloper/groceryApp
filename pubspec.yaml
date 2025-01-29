@@ -30,7 +30,8 @@ dependencies:
   flutter_google_places: 
   google_api_headers:
   fluttertoast:
-
+  flutter_rating_stars: ^1.1.0
+  
 
 
 

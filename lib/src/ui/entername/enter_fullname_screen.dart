@@ -111,7 +111,8 @@ class _EnterFullNameScreenState extends State<EnterFullNameScreen> {
           child: Center(
             child: InkWell(
               onTap: () async {
-                if (_formKey.currentState?.validate() ?? false) {
+                if (_formKey.currentState?.validate() ?? false) 
+                {
                   final success = await pageNotifier.customerRegister(context);
                   print("dshfgjkdfjgh  ${success}");
                   if (success) {
