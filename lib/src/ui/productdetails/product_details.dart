@@ -6,11 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grocery_app/src/common_widget/network_image.dart';
+import 'package:grocery_app/src/core/routes/routes.dart';
 import 'package:grocery_app/src/data/allProduct_model.dart';
 import 'package:grocery_app/src/logic/provider/home_provider.dart';
 import 'package:grocery_app/utils/constants/assets_constant.dart';
 import 'package:grocery_app/utils/constants/color_constant.dart';
+import 'package:grocery_app/utils/constants/shared_pref_utils.dart';
 import 'package:grocery_app/utils/extensions/uicontext.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -192,7 +195,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               ),
-              similarProducts(),
+              bestDeal(),
               SizedBox(
                 height: 100,
               )
@@ -332,204 +335,371 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
-  Widget similarProducts() {
-    return SizedBox(
-      height: 222,
-      child: ListView.builder(
-        itemCount: 5,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(right: 10, bottom: 5, top: 5),
-            child: Container(
-              height: 215,
-              width: 150,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
-                      blurRadius: 1,
-                      offset: const Offset(5, 5),
-                    ),
-                  ]),
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 100,
-                      width: 150,
-                      decoration: BoxDecoration(
-                          color: APPCOLOR.bgGrey,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: const Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          AppNetworkImage(
-                              height: 70,
-                              width: 70,
-                              imageUrl:
-                                  "https://5.imimg.com/data5/SELLER/Default/2024/2/385126988/OL/DA/VW/8627346/1l-fortune-sunflower-oil.jpg",
-                              backGroundColor: Colors.transparent),
-                          Positioned(
-                              right: 5,
-                              top: 5,
-                              child: Icon(Icons.favorite_border))
-                        ],
-                      ),
-                    ),
-                    Text(
-                      "Fortune Arhar Dal (Toor Dal)",
-                      textAlign: TextAlign.left,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: context.customMedium(APPCOLOR.balck1A1A1A, 14),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "500 ML",
-                      textAlign: TextAlign.left,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: context.customMedium(
-                          Colors.grey.withOpacity(0.8), 12),
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: Row(
-                          children: [
-                            Text(
-                              "\$12",
-                              textAlign: TextAlign.left,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.customSemiBold(Colors.black, 12),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "\$14",
-                              textAlign: TextAlign.left,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context
-                                  .customMedium(
-                                      Colors.grey.withOpacity(0.8), 12)
-                                  .copyWith(
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
-                            ),
-                          ],
-                        )),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              height: 30,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                color: APPCOLOR.lightGreen,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Center(
-                                  child: Text(
-                                'Add',
-                                style: context.customRegular(Colors.white, 12),
-                              )),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  // Widget bottomBar() {
-  //   return Container(
-  //     padding: EdgeInsets.all(16),
-  //     decoration: BoxDecoration(
-  //       color: Colors.white,
-  //       boxShadow: [BoxShadow(color: Colors.grey.shade300, blurRadius: 10)],
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         Row(
-  //           children: [
-  //             IconButton(
-  //               icon: Icon(Icons.remove_circle_outline),
-  //               onPressed: () {
-  //                 if (quantity > 1) {
-  //                   setState(() => quantity--);
-  //                 }
-  //               },
+  // Widget similarProducts() {
+  //   return SizedBox(
+  //     height: 222,
+  //     child: ListView.builder(
+  //       itemCount: 5,
+  //       scrollDirection: Axis.horizontal,
+  //       itemBuilder: (context, index) {
+  //         return Padding(
+  //           padding: const EdgeInsets.only(right: 10, bottom: 5, top: 5),
+  //           child: Container(
+  //             height: 215,
+  //             width: 150,
+  //             decoration: BoxDecoration(
+  //                 color: Colors.white,
+  //                 borderRadius: BorderRadius.circular(15),
+  //                 boxShadow: [
+  //                   BoxShadow(
+  //                     color: Colors.grey.withOpacity(0.1),
+  //                     blurRadius: 1,
+  //                     offset: const Offset(5, 5),
+  //                   ),
+  //                 ]),
+  //             child: Padding(
+  //               padding: const EdgeInsets.all(5),
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   Container(
+  //                     height: 100,
+  //                     width: 150,
+  //                     decoration: BoxDecoration(
+  //                         color: APPCOLOR.bgGrey,
+  //                         borderRadius: BorderRadius.circular(15)),
+  //                     child: const Stack(
+  //                       alignment: Alignment.center,
+  //                       children: [
+  //                         AppNetworkImage(
+  //                             height: 70,
+  //                             width: 70,
+  //                             imageUrl:
+  //                                 "https://5.imimg.com/data5/SELLER/Default/2024/2/385126988/OL/DA/VW/8627346/1l-fortune-sunflower-oil.jpg",
+  //                             backGroundColor: Colors.transparent),
+  //                         Positioned(
+  //                             right: 5,
+  //                             top: 5,
+  //                             child: Icon(Icons.favorite_border))
+  //                       ],
+  //                     ),
+  //                   ),
+  //                   Text(
+  //                     "Fortune Arhar Dal (Toor Dal)",
+  //                     textAlign: TextAlign.left,
+  //                     maxLines: 2,
+  //                     overflow: TextOverflow.ellipsis,
+  //                     style: context.customMedium(APPCOLOR.balck1A1A1A, 14),
+  //                   ),
+  //                   const SizedBox(
+  //                     height: 5,
+  //                   ),
+  //                   Text(
+  //                     "500 ML",
+  //                     textAlign: TextAlign.left,
+  //                     maxLines: 1,
+  //                     overflow: TextOverflow.ellipsis,
+  //                     style: context.customMedium(
+  //                         Colors.grey.withOpacity(0.8), 12),
+  //                   ),
+  //                   const SizedBox(
+  //                     height: 3,
+  //                   ),
+  //                   Row(
+  //                     children: [
+  //                       Expanded(
+  //                           child: Row(
+  //                         children: [
+  //                           Text(
+  //                             "\$12",
+  //                             textAlign: TextAlign.left,
+  //                             maxLines: 1,
+  //                             overflow: TextOverflow.ellipsis,
+  //                             style: context.customSemiBold(Colors.black, 12),
+  //                           ),
+  //                           const SizedBox(
+  //                             width: 5,
+  //                           ),
+  //                           Text(
+  //                             "\$14",
+  //                             textAlign: TextAlign.left,
+  //                             maxLines: 1,
+  //                             overflow: TextOverflow.ellipsis,
+  //                             style: context
+  //                                 .customMedium(
+  //                                     Colors.grey.withOpacity(0.8), 12)
+  //                                 .copyWith(
+  //                                   decoration: TextDecoration.lineThrough,
+  //                                 ),
+  //                           ),
+  //                         ],
+  //                       )),
+  //                       Expanded(
+  //                         child: Align(
+  //                           alignment: Alignment.centerRight,
+  //                           child: Container(
+  //                             height: 30,
+  //                             width: 50,
+  //                             decoration: BoxDecoration(
+  //                               color: APPCOLOR.lightGreen,
+  //                               borderRadius: BorderRadius.circular(5),
+  //                             ),
+  //                             child: Center(
+  //                                 child: Text(
+  //                               'Add',
+  //                               style: context.customRegular(Colors.white, 12),
+  //                             )),
+  //                           ),
+  //                         ),
+  //                       )
+  //                     ],
+  //                   ),
+  //                 ],
+  //               ),
   //             ),
-  //             Text("$quantity",
-  //                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-  //             IconButton(
-  //               icon: Icon(Icons.add_circle_outline),
-  //               onPressed: () => setState(() => quantity++),
-  //             ),
-  //           ],
-  //         ),
-  //         Container(
-  //           height: 50,
-  //           // width: 0,
-  //           decoration: BoxDecoration(
-  //             color: APPCOLOR.lightGreen,
-  //             borderRadius: BorderRadius.circular(5),
   //           ),
-  //           child: Padding(
-  //             padding: const EdgeInsets.all(8.0),
-  //             child: Center(
-  //                 child: Row(
-  //               children: [
-  //                 Text(
-  //                   'Add to Cart',
-  //                   style: TextStyle(
-  //                       fontSize: 20,
-  //                       fontWeight: FontWeight.bold,
-  //                       color: Colors.white),
-  //                 ),
-  //                 SizedBox(
-  //                   width: 20,
-  //                 ),
-  //                 Container(width: 2, height: 50, color: APPCOLOR.whiteFBFEFB),
-  //                 SizedBox(
-  //                   width: 20,
-  //                 ),
-  //                 Text(
-  //                   "\$${widget.product.discountPrice ?? ""}",
-  //                   style: TextStyle(
-  //                       fontSize: 25,
-  //                       fontWeight: FontWeight.bold,
-  //                       color: Colors.white),
-  //                 ),
-  //               ],
-  //             )),
-  //           ),
-  //         )
-  //       ],
+  //         );
+  //       },
   //     ),
   //   );
   // }
+
+  Widget bestDeal() {
+    return Consumer<ProductProvider>(builder: (context, provider, child) {
+      if (provider.isBestdealingloading) {
+        return Center(child: CircularProgressIndicator());
+      } else if (provider.bestdeal.isEmpty) {
+        return Center(child: Text('No products available'));
+      } else {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.28,
+          child: ListView.builder(
+            itemCount: provider.bestdeal.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              var bestdealproduct = provider.bestdeal[index];
+              double cardWidth =
+                  MediaQuery.of(context).size.width * 0.4; // Dynamic width
+
+              return Padding(
+                padding: const EdgeInsets.only(right: 10, bottom: 5, top: 5),
+                child: Container(
+                  width: cardWidth,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.1),
+                        blurRadius: 1,
+                        offset: const Offset(5, 5),
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            width: cardWidth * 0.9,
+                            decoration: BoxDecoration(
+                              color: APPCOLOR.bgGrey,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                AppNetworkImage(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.08,
+                                  width: cardWidth * 0.7,
+                                  imageUrl: bestdealproduct
+                                          .productImages?.first?.url ??
+                                      "",
+                                  backGroundColor: Colors.transparent,
+                                ),
+                                Positioned(
+                                  right: 5,
+                                  top: 5,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      if (await SharedPrefUtils.getToken() !=
+                                          null) {
+                                        provider.toggleWishlist(
+                                            context, bestdealproduct.id!);
+                                      } else {
+                                        context.push(MyRoutes.LOGIN);
+                                      }
+                                    },
+                                    child: Icon(
+                                      provider.wishlist
+                                              .contains(bestdealproduct.id)
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: provider.wishlist
+                                              .contains(bestdealproduct.id)
+                                          ? Colors.red
+                                          : Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        Text(
+                          bestdealproduct.name ?? "",
+                          textAlign: TextAlign.left,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.customMedium(APPCOLOR.balck1A1A1A, 14),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.005,
+                        ),
+                        Text(
+                          bestdealproduct.unit ?? "",
+                          textAlign: TextAlign.left,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.customMedium(
+                            Colors.grey.withOpacity(0.8),
+                            12,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.005,
+                        ),
+                        const Spacer(),
+                        Row(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "\$${bestdealproduct.discountPrice ?? ""}  ",
+                                  textAlign: TextAlign.left,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style:
+                                      context.customSemiBold(Colors.black, 12),
+                                ),
+                                Text(
+                                  "\$${bestdealproduct.basePrice ?? ""}",
+                                  textAlign: TextAlign.left,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: context
+                                      .customMedium(
+                                        Colors.grey.withOpacity(0.8),
+                                        12,
+                                      )
+                                      .copyWith(
+                                        decoration: TextDecoration.lineThrough,
+                                      ),
+                                ),
+                              ],
+                            ),
+
+                            // Align(
+                            //   alignment: Alignment.centerRight,
+                            //   child: InkWell(
+                            //     onTap: () async {
+                            //       bool success = await provider.addToCart(context, bestdealproduct.id!);
+                            //     if (success) {
+                            //       Fluttertoast.showToast(
+                            //         msg: "Product added to cart!",
+                            //         toastLength: Toast.LENGTH_SHORT,
+                            //         gravity: ToastGravity.BOTTOM,
+                            //         backgroundColor: Colors.green,
+                            //         textColor: Colors.white,
+                            //         fontSize: 14.0,
+                            //       );
+                            //     }
+
+                            //     },
+                            //     child: Container(
+                            //       height:
+                            //           MediaQuery.of(context).size.height * 0.035,
+                            //       width: MediaQuery.of(context).size.width * 0.1,
+                            //       decoration: BoxDecoration(
+                            //         color: APPCOLOR.lightGreen,
+                            //         borderRadius: BorderRadius.circular(5),
+                            //       ),
+                            //       child: Center(
+                            //         child: Text(
+                            //           'Add',
+                            //           style:
+                            //               context.customRegular(Colors.white, 12),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            const Spacer(),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  if (await SharedPrefUtils.getToken() !=
+                                      null) {
+                                    provider.isLoading[bestdealproduct.id] ??
+                                            false
+                                        ? null
+                                        : () => provider.addToCart(
+                                            context, bestdealproduct.id!);
+                                  } else {
+                                    context.push(MyRoutes.LOGIN);
+                                  }
+                                },
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.035,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  decoration: BoxDecoration(
+                                    color: provider.cartItems
+                                            .contains(bestdealproduct.id)
+                                        ? Colors.grey
+                                        : APPCOLOR.lightGreen,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Center(
+                                    child: provider.isLoading[
+                                                bestdealproduct.id] ??
+                                            false
+                                        ? CircularProgressIndicator(
+                                            color: Colors.white, strokeWidth: 2)
+                                        : Text(
+                                            provider.cartItems.contains(
+                                                    bestdealproduct.id)
+                                                ? 'Added'
+                                                : 'Add',
+                                            style: context.customRegular(
+                                                Colors.white, 12),
+                                          ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      }
+    });
+  }
 
   Widget bottomBar() {
     return Consumer<ProductProvider>(

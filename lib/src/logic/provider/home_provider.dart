@@ -161,7 +161,7 @@ class ProductProvider extends ChangeNotifier {
 
   // Mock API call
   Future<bool> addToWish(BuildContext context, String productId) async {
-    //context.showLoader(show: true);
+    print("jsdkjfhkdfkg  ${productId}");
 
     var data = {
       "productId": productId,
@@ -200,14 +200,11 @@ class ProductProvider extends ChangeNotifier {
 
   Set<String> wishlist = {}; // To store product IDs in the wishlist
 
-  // Function to add/remove product from wishlist
-
   Future<void> toggleWishlist(BuildContext context, String productId) async {
     try {
       if (wishlist.contains(productId)) {
         wishlist.remove(productId);
       } else {
-        // Call the API to add to wishlist
         var result = await addToWish(context, productId);
 
         wishlist.add(productId); // Add the product ID to the wishlist
@@ -220,6 +217,16 @@ class ProductProvider extends ChangeNotifier {
           backgroundColor: Colors.red,
         ),
       );
+    }
+  }
+
+  void toggleWishlist1(String productId) {
+    for (var product in products) {
+      if (product.id == productId) {
+        product.isInWishlist = !product.isInWishlist; // Toggle value
+        notifyListeners(); // Refresh UI
+        break;
+      }
     }
   }
 
@@ -262,14 +269,14 @@ class ProductProvider extends ChangeNotifier {
   //   }
   // }
 
-  Set<String> cartItems = {}; // Stores added cart items
-  Map<String, bool> isLoading = {}; // Tracks loading state per product
+  Set<String> cartItems = {};
+  Map<String, bool> isLoading = {};
 
   Future<void> addToCart(BuildContext context, String productId) async {
     if (cartItems.contains(productId)) return; // Prevent duplicate additions
 
     isLoading[productId] = true;
-    notifyListeners();
+    notifyListeners(); // Notify UI to show loading indicator
 
     var data = {"productId": productId, "quantity": 1};
 
@@ -286,7 +293,7 @@ class ProductProvider extends ChangeNotifier {
           );
         },
         (response) {
-          cartItems.add(productId); // Update cart state on success
+          cartItems.add(productId); // Add product to cart
           Fluttertoast.showToast(
             msg: "Added to cart successfully!",
             toastLength: Toast.LENGTH_SHORT,
@@ -295,17 +302,20 @@ class ProductProvider extends ChangeNotifier {
             textColor: Colors.white,
             fontSize: 14.0,
           );
+          notifyListeners(); // Update UI after adding to cart
         },
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text("Something went wrong"), backgroundColor: Colors.red),
+          content: Text("Something went wrong"),
+          backgroundColor: Colors.red,
+        ),
       );
+    } finally {
+      isLoading[productId] = false;
+      notifyListeners(); // Ensure UI updates after operation
     }
-
-    isLoading[productId] = false;
-    notifyListeners();
   }
 
   bool isWishListItemLoadingg = true;
@@ -376,8 +386,6 @@ class ProductProvider extends ChangeNotifier {
 
   Future<void> similarProductprovider(BuildContext context, String id) async {
     var data = {};
-
-   
 
     var result = await _homeRepo.similarProduct(data, context, id);
     return result.fold(

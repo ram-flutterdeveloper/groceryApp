@@ -315,56 +315,37 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
 
-                            // Align(
-                            //   alignment: Alignment.centerRight,
-                            //   child: InkWell(
-                            //     onTap: () async {
-                            //       bool success = await provider.addToCart(context, bestdealproduct.id!);
-                            //     if (success) {
-                            //       Fluttertoast.showToast(
-                            //         msg: "Product added to cart!",
-                            //         toastLength: Toast.LENGTH_SHORT,
-                            //         gravity: ToastGravity.BOTTOM,
-                            //         backgroundColor: Colors.green,
-                            //         textColor: Colors.white,
-                            //         fontSize: 14.0,
-                            //       );
-                            //     }
-
-                            //     },
-                            //     child: Container(
-                            //       height:
-                            //           MediaQuery.of(context).size.height * 0.035,
-                            //       width: MediaQuery.of(context).size.width * 0.1,
-                            //       decoration: BoxDecoration(
-                            //         color: APPCOLOR.lightGreen,
-                            //         borderRadius: BorderRadius.circular(5),
-                            //       ),
-                            //       child: Center(
-                            //         child: Text(
-                            //           'Add',
-                            //           style:
-                            //               context.customRegular(Colors.white, 12),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            const Spacer(),
+                            //  const Spacer(),
                             Align(
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 onTap: () async {
+                                  print(
+                                      "Add to Cart Pressed for ${bestdealproduct.id}");
+
                                   if (await SharedPrefUtils.getToken() !=
                                       null) {
-                                    provider.isLoading[bestdealproduct.id] ??
-                                            false
-                                        ? null
-                                        : () => provider.addToCart(
-                                            context, bestdealproduct.id!);
+                                    if (!(provider
+                                            .isLoading[bestdealproduct.id] ??
+                                        false)) {
+                                      await provider.addToCart(
+                                          context, bestdealproduct.id!);
+                                    }
                                   } else {
                                     context.push(MyRoutes.LOGIN);
                                   }
+
+                                  // if (await SharedPrefUtils.getToken() !=  null)
+                                  //     {
+
+                                  //   provider.isLoading[bestdealproduct.id] ?? false
+                                  //       ? null
+                                  //       : () => provider.addToCart(
+                                  //           context, bestdealproduct.id!);
+                                  // } else
+                                  // {
+                                  //   context.push(MyRoutes.LOGIN);
+                                  // }
                                 },
                                 child: Container(
                                   height: MediaQuery.of(context).size.height *
@@ -417,8 +398,7 @@ class _HomeScreenState extends State<HomeScreen> {
       } else if (provider.banner.isEmpty) {
         return Center(child: Text('No products available'));
       } else {
-        return 
-        CarouselSlider(
+        return CarouselSlider(
           options: CarouselOptions(
             height: 180,
 
@@ -503,8 +483,6 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }).toList(),
         );
-     
-     
       }
     });
   }
@@ -555,7 +533,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 10,
                     ),
                     Text(
-                      "Vegitables and Fruits",
+                      product.name ?? "",
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

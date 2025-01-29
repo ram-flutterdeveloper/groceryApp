@@ -11,6 +11,7 @@ class APIURL {
   static const String getBestDealProduct = "${BASE_URL}products/best-deals";
   static const String getAllcategory = "${BASE_URL}categories";
   static const String addToWish = "${BASE_URL}carts/wishlist/items";
+   static const String deleteToWish = "${BASE_URL}carts/wishlist/items";
   static const String addToCart = "${BASE_URL}carts/items";
   static const String gettAllWishList = "${BASE_URL}carts/wishlist";
   static const String similarProduct = "${BASE_URL}products/";

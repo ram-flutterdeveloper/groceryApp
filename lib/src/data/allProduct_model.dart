@@ -10,8 +10,7 @@ AllProductModel allProductModelFromJson(String str) =>
 String allProductModelToJson(AllProductModel data) =>
     json.encode(data.toJson());
 
-class AllProductModel 
-{
+class AllProductModel {
   List<Product>? data;
   Meta? meta;
 
@@ -33,69 +32,66 @@ class AllProductModel
 }
 
 class Product {
- dynamic id;
- dynamic name;
- dynamic description;
- dynamic additionalInfo;
+  dynamic id;
+  dynamic name;
+  dynamic description;
+  dynamic additionalInfo;
   dynamic brand;
- dynamic basePrice;
+  dynamic basePrice;
   dynamic discountPrice;
   dynamic stock;
   dynamic quantity;
- dynamic unit;
- dynamic slug;
+  dynamic unit;
+  dynamic slug;
   dynamic rating;
   bool? isInStock;
   bool? isActive;
   DateTime? createdAt;
   DateTime? updatedAt;
- dynamic storeId;
- dynamic categoryId;
+  dynamic storeId;
+  dynamic categoryId;
   dynamic productTypeId;
   dynamic timeSlotId;
   Store? store;
   Category? category;
   dynamic productType;
   dynamic timeSlot;
+  dynamic isInWishlist;
   List<ProductImage>? productImages;
   List<dynamic>? productTags;
   List<dynamic>? zones;
   List<ProductReview>? productReview;
 
-
-
-  
-
-  Product({
-    this.id,
-    this.name,
-    this.description,
-    this.additionalInfo,
-    this.brand,
-    this.basePrice,
-    this.discountPrice,
-    this.stock,
-    this.quantity,
-    this.unit,
-    this.slug,
-    this.rating,
-    this.isInStock,
-    this.isActive,
-    this.createdAt,
-    this.updatedAt,
-    this.storeId,
-    this.categoryId,
-    this.productTypeId,
-    this.timeSlotId,
-    this.store,
-    this.category,
-    this.productType,
-    this.timeSlot,
-    this.productImages,
-    this.productTags,
-    this.zones,
-    this.productReview,
-  });
+  Product(
+      {this.id,
+      this.name,
+      this.description,
+      this.additionalInfo,
+      this.brand,
+      this.basePrice,
+      this.discountPrice,
+      this.stock,
+      this.quantity,
+      this.unit,
+      this.slug,
+      this.rating,
+      this.isInStock,
+      this.isActive,
+      this.createdAt,
+      this.updatedAt,
+      this.storeId,
+      this.categoryId,
+      this.productTypeId,
+      this.timeSlotId,
+      this.store,
+      this.category,
+      this.productType,
+      this.timeSlot,
+      this.productImages,
+      this.productTags,
+      this.zones,
+      this.productReview,
+      this.isInWishlist});
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
@@ -128,6 +124,7 @@ class Product {
         zones: List<dynamic>.from(json["zones"].map((x) => x)),
         productReview: List<ProductReview>.from(
             json["ProductReview"].map((x) => ProductReview.fromJson(x))),
+        isInWishlist: json["isInWishlist"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -161,21 +158,23 @@ class Product {
         "zones": List<dynamic>.from(zones!.map((x) => x)),
         "ProductReview":
             List<dynamic>.from(productReview!.map((x) => x.toJson())),
+        "isInWishlist": isInWishlist,
       };
+
 }
 
 class Category {
- dynamic id;
- dynamic name;
- dynamic description;
- dynamic image;
- dynamic slug;
+  dynamic id;
+  dynamic name;
+  dynamic description;
+  dynamic image;
+  dynamic slug;
   dynamic level;
   bool? isActive;
   DateTime? createdAt;
   DateTime? updatedAt;
   dynamic parentCategoryId;
- dynamic path;
+  dynamic path;
 
   Category({
     this.id,
@@ -221,10 +220,10 @@ class Category {
 }
 
 class ProductImage {
- dynamic id;
- dynamic url;
+  dynamic id;
+  dynamic url;
   bool? isDefault;
- dynamic productId;
+  dynamic productId;
 
   ProductImage({
     this.id,
@@ -249,18 +248,18 @@ class ProductImage {
 }
 
 class ProductReview {
- dynamic id;
- dynamic userId;
- dynamic productId;
- dynamic rating;
- dynamic title;
- dynamic description;
+  dynamic id;
+  dynamic userId;
+  dynamic productId;
+  dynamic rating;
+  dynamic title;
+  dynamic description;
   dynamic likes;
   dynamic dislikes;
   dynamic helpfulCount;
   bool? isVerified;
   bool? verifiedPurchase;
- dynamic status;
+  dynamic status;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -317,17 +316,17 @@ class ProductReview {
 }
 
 class Store {
- dynamic id;
- dynamic storeName;
- dynamic storeDescription;
- dynamic officialPhoneNumber;
- dynamic storeAddress;
- dynamic gstNumber;
- dynamic gumastaNumber;
- dynamic storePicture;
+  dynamic id;
+  dynamic storeName;
+  dynamic storeDescription;
+  dynamic officialPhoneNumber;
+  dynamic storeAddress;
+  dynamic gstNumber;
+  dynamic gumastaNumber;
+  dynamic storePicture;
   DateTime? createdAt;
   DateTime? updatedAt;
- dynamic vendorId;
+  dynamic vendorId;
   bool? isActive;
 
   Store({

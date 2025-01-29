@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grocery_app/src/common_widget/network_image.dart';
 import 'package:grocery_app/src/core/routes/routes.dart';
@@ -107,6 +108,12 @@ class _FruitVeggieDetailState extends State<FruitVeggieDetail> {
                   ),
                   itemBuilder: (context, index) {
                     var product = provider.products[index];
+
+                    print("jndsfkgkdfg  ${product.isInWishlist}");
+
+                    if (product.isInWishlist) {
+                      provider.wishlist.add(product.id);
+                    }
                     return Container(
                       height: itemHeight,
                       decoration: BoxDecoration(
@@ -150,19 +157,35 @@ class _FruitVeggieDetailState extends State<FruitVeggieDetail> {
                                     child: InkWell(
                                       onTap: () async {
                                         if (await SharedPrefUtils.getToken() !=
-                                            null) {
-                                          provider.toggleWishlist(
-                                              context, product.id!);
+                                            null)
+                                             {
+                                          if (product.isInWishlist) 
+                                          {
+                                            Fluttertoast.showToast(
+                                              msg: "Item already added!",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM,
+                                              backgroundColor: Colors.green,
+                                              textColor: Colors.white,
+                                              fontSize: 14.0,
+                                            );
+                                          } else 
+                                          {
+                                           
+                                          
+                                            //product.isInWishlist=ture;
+                                            provider.toggleWishlist1( product.id!);
+                                        
+                                          }
                                         } else {
                                           context.push(MyRoutes.LOGIN);
                                         }
                                       },
                                       child: Icon(
-                                        provider.wishlist.contains(product.id)
+                                        product.isInWishlist
                                             ? Icons.favorite
                                             : Icons.favorite_border,
-                                        color: provider.wishlist
-                                                .contains(product.id)
+                                        color: product.isInWishlist
                                             ? Colors.red
                                             : Colors.grey,
                                       ),
